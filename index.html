@@ -204,8 +204,10 @@
         .xray-image-container {
             flex:1; background:#000; border-radius:25px; padding:15px; position:relative; text-align:center; min-height:350px; display:flex; justify-content:center; align-items:center;
         }
+        /* Base64 X-ray image - itaonekana offline */
         .xray-image {
             max-width:100%; max-height:320px; border-radius:15px; opacity:0.95; box-shadow:0 0 30px rgba(0,255,157,0.5); filter:invert(1) contrast(1.3);
+            content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAD6CAYAAAA1iHkUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAHQlJREFUeNrsnU1sHMd9x3+ze58UkqIofkh8gS1ZkSxRimwjdmLbdQMnQBIDQZAgQBvk0gZtDgH6nXJsTwF6yR+6Bz0GCHJJmmuLIn0p4qJNmthBZNuSZcmSRYofIkVSJCmK+97u9FmK5JI7zM7szrw8H0CwF8nZ2Z3Z/7z/z//9P7M7BAAAAAAAAAIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4CqP7NixYw8hhRBC4jX3Hk0mkwMhl0qlw2vXrn2UYRiGp9+/f5+FQqFHRVF8lJf5kSNHjoRcOgggAIDQASGEpLe3t2QYxpb29vbna7XaA7PZfIdtNpt9FEWxp2ma4rquy13XdV3XdZzLly+XCSG9vb29lUpl2WazfUvTtEWhULgXDAbvx2Kxe+Fw+F4wGByNRCKj0Wh0TNM0qVar1bZt21ap1+vVarXaqFarT7Varaper9eKxeJcsVhcLBaLi6VSiQQCgR4h4OFIJHI/Fos9iMfjj+Lx+MPu7u6Ha9eufQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAfAgwAyFfQ3qD0EUAAAAAASUVORK5CYII=");
         }
         .dot-overlay {
             position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;
@@ -262,7 +264,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="scanner-overlay" id="scannerOverlay">
+        <div class="scanner-overlay" id="scannerOverlay" style="display: none;">
             <div class="scanner-content">
                 <div class="scanner-title">🔬 CLINICAL DIAGNOSTIC SCAN</div>
                 <div class="progress-container"><div class="progress-bar" id="scanProgress"></div></div>
@@ -319,7 +321,7 @@
             <div class="section-title"><span>🩻</span> PICHA YA X-RAY • MAENEO YALIYOATHIRIKA</div>
             <div class="xray-container">
                 <div class="xray-image-container">
-                    <img src="https://images.unsplash.com/photo-1579154392128-bf8c7ebee541?q=80&w=2070&auto=format&fit=crop" alt="Real Human X-Ray" class="xray-image">
+                    <div class="xray-image"></div>
                     <div class="dot-overlay" id="dotOverlay"></div>
                 </div>
                 <div style="flex:1; color:#94a3b8; text-align:center;"><div class="led" style="margin:0 auto 10px;"></div><p>Matokeo yanaonekana hapa chini</p></div>
@@ -368,22 +370,7 @@
                 { title:"COPD - GOLD Stage 2", source:"NHANES [8]", points:810, explanation:"Ugonjwa sugu wa mapafu unaosababisha kukosa pumzi. FEV1 65% ya kawaida.", bodyPart:[0.4,0.27], badge:"🫁 Na.12" },
                 { title:"Chronic kidney disease - Stage 3a", source:"TriNetX [1]", points:800, explanation:"Figo zimepungua kazi (eGFR 55). Inahitaji kufuatilia shinikizo la damu na lishe.", bodyPart:[0.5,0.48], badge:"🧂 Na.13" },
                 { title:"Asthma - GINA Step 3", source:"PCORnet [9]", points:765, explanation:"Pumu isiyodhibitiwa vizuri. Inahitaji dawa za kuvuta na kuepuka vichochezi.", bodyPart:[0.4,0.27], badge:"🌬️ Na.14" },
-                { title:"Atrial fibrillation - CHA2DS2-VASc 3", source:"TriNetX [1]", points:850, explanation:"Mapigo ya moyo yasiyo ya kawaida. Hatari ya kupata kiharusi ni 3.2% kwa mwaka.", bodyPart:[0.45,0.27], badge:"💓 Na.15" },
-                { title:"Heart failure with preserved EF", source:"Mayo Clinic [5]", points:820, explanation:"Kushindwa kwa moyo kusukuma damu vizuri hata kama nguvu ya moyo iko sawa.", bodyPart:[0.45,0.27], badge:"💔 Na.16" },
-                { title:"Community-acquired pneumonia", source:"N3C [1]", points:790, explanation:"Bakteria wamevamia mapafu. CURB-65 score 2 inahitaji kulazwa hospitalini.", bodyPart:[0.4,0.27], badge:"🫁 Na.17" },
-                { title:"Deep vein thrombosis - proximal", source:"OBIA [10]", points:835, explanation:"Damu kuganda kwenye mshipa wa kina cha mguu. Inahitaji dawa za kuzuia kuganda.", bodyPart:[0.5,0.7], badge:"🩸 Na.18" },
-                { title:"Pulmonary embolism - segmental", source:"PCORnet [9]", points:860, explanation:"Kuganda kwa damu kwenye mapafu. Hali ya hatari inayohitaji matibabu ya haraka.", bodyPart:[0.4,0.27], badge:"⚠️ Na.19" },
-                { title:"Acute pancreatitis - Ranson 3", source:"TriNetX [1]", points:805, explanation:"Kuvimba kwa kongosho. Ranson 3 inaonyesha hatua ya wastani.", bodyPart:[0.5,0.38], badge:"🔥 Na.20" },
-                { title:"Cholelithiasis - symptomatic", source:"OBIA [10]", points:745, explanation:"Mawe kwenye nyongo yanayosababisha maumivu. Inahitaji upasuaji.", bodyPart:[0.5,0.38], badge:"🪨 Na.21" },
-                { title:"Diverticulitis - Hinchey Ia", source:"PCORnet [9]", points:760, explanation:"Kuvimba kwa mifuko kwenye utumbo mpana. Inatibika kwa dawa na chakula.", bodyPart:[0.5,0.42], badge:"🩺 Na.22" },
-                { title:"Breast cancer - ER+/HER2- Stage IIA", source:"PCORnet [9]", points:895, explanation:"Saratani ya matiti inayoitikia homoni. Hatua ya IIA inaweza kutibika.", bodyPart:[0.5,0.1], badge:"🎀 Na.23" },
-                { title:"Prostate cancer - Gleason 3+4", source:"Mayo Clinic [5]", points:885, explanation:"Saratani ya tezi dume. Gleason 7 inaonyesha hatari ya wastani.", bodyPart:[0.5,0.6], badge:"🔬 Na.24" },
-                { title:"Colorectal cancer - Stage IIIB", source:"TriNetX [1]", points:890, explanation:"Saratani ya utumbo mpana imeenea kwenye nodi za limfu. Inahitaji upasuaji na kemotherapi.", bodyPart:[0.5,0.42], badge:"🦠 Na.25" },
-                { title:"Lung cancer - NSCLC Stage IIIA", source:"N3C [1]", points:880, explanation:"Saratani ya mapafu ya aina isiyo ndogo. Hatua ya IIIA inahitaji tiba mchanganyiko.", bodyPart:[0.4,0.27], badge:"🫁 Na.26" },
-                { title:"HIV - CD4 450, viral load undetectable", source:"DHS [3]", points:815, explanation:"VVU inayodhibitiwa vizuri na dawa. CD4 450 ni nzuri.", bodyPart:[0.5,0.3], badge:"🩸 Na.27" },
-                { title:"Hepatitis C - Genotype 1a", source:"PCORnet [9]", points:820, explanation:"Maambukizi ya ini ya virusi vya Hepatitis C. Inatibika kwa dawa za kisasa.", bodyPart:[0.5,0.48], badge:"🧪 Na.28" },
-                { title:"Systemic lupus - SLEDAI 8", source:"Mayo Clinic [5]", points:830, explanation:"Ugonjwa wa kinga mwilini unaoshambulia viungo mbalimbali. SLEDAI 8 ni wastani.", bodyPart:[0.5,0.5], badge:"🔥 Na.29" },
-                { title:"Multiple sclerosis - EDSS 3.5", source:"PCORnet [9]", points:840, explanation:"Ugonjwa unaoshambulia mfumo mkuu wa neva. EDSS 3.5 inaonyesha ulemavu wa wastani.", bodyPart:[0.5,0.1], badge:"🧠 Na.30" }
+                { title:"Atrial fibrillation - CHA2DS2-VASc 3", source:"TriNetX [1]", points:850, explanation:"Mapigo ya moyo yasiyo ya kawaida. Hatari ya kupata kiharusi ni 3.2% kwa mwaka.", bodyPart:[0.45,0.27], badge:"💓 Na.15" }
             ],
             traditional: [
                 { title:"Phlegmatic - Cold/Moist Temperament", source:"Unani Medicine (☪️)", points:825, explanation:"Asili ya 'Baridi na Unyevu.' Husababisha mwili kuwa mzito, kamasi nyingi, na kukosa msisimko.", bodyPart:[0.4,0.27], badge:"🌊 Na.1" },
@@ -396,26 +383,7 @@
                 { title:"Spleen Qi Deficiency", source:"Chinese Medicine (🇨🇳)", points:770, explanation:"Udhaifu wa wengu husababisha uchovu, bloating, na kuhara.", bodyPart:[0.5,0.38], badge:"🫘 Na.8" },
                 { title:"Heart Blood Deficiency", source:"Chinese Medicine (🇨🇳)", points:785, explanation:"Ukosefu wa damu kwenye moyo husababisha mapigo ya moyo, kukosa usingizi, na wasiwasi.", bodyPart:[0.45,0.27], badge:"💓 Na.9" },
                 { title:"Lung Qi Deficiency", source:"Chinese Medicine (🇨🇳)", points:760, explanation:"Udhaifu wa mapafu husababisha kukosa pumzi, sauti dhaifu, na kukohoa.", bodyPart:[0.4,0.27], badge:"🫁 Na.10" },
-                { title:"Sanguine (Hot/Moist)", source:"Unani Medicine (☪️)", points:820, explanation:"Tabia ya moto na unyevu husababisha maumivu ya kichwa, shinikizo la damu, na wekundu wa uso.", bodyPart:[0.5,0.1], badge:"🔥 Na.11" },
-                { title:"Choleric (Hot/Dry)", source:"Unani Medicine (☪️)", points:810, explanation:"Tabia ya moto na ukavu husababisha kiungulia, kuwashwa, na ngozi kukauka.", bodyPart:[0.5,0.38], badge:"☀️ Na.12" },
-                { title:"Melancholic (Cold/Dry)", source:"Unani Medicine (☪️)", points:795, explanation:"Tabia ya baridi na ukavu husababisha huzuni, kuvimbiwa, na ngozi kufa ganzi.", bodyPart:[0.5,0.42], badge:"❄️ Na.13" },
-                { title:"Humoral Imbalance", source:"Unani Medicine (☪️)", points:775, explanation:"Usawa wa maji manne mwilini umevurugika, husababisha uchovu na magonjwa yasiyojulikana.", bodyPart:[0.5,0.5], badge:"💧 Na.14" },
-                { title:"Liver Heat", source:"Chinese Medicine (🇨🇳)", points:805, explanation:"Joto kwenye ini husababisha hasira, macho kuwa mekundu, na ladha chungu mdomoni.", bodyPart:[0.5,0.48], badge:"🔥 Na.15" },
-                { title:"Stomach Cold", source:"Chinese Medicine (🇨🇳)", points:750, explanation:"Baridi tumboni husababisha mmeng'enyo mbaya, bloating, na hamu ya chakula kupungua.", bodyPart:[0.5,0.38], badge:"❄️ Na.16" },
-                { title:"Lung Moisture", source:"Chinese Medicine (🇨🇳)", points:740, explanation:"Unyevu kwenye mapafu husababisha kikohozi chenye makohozi mengi.", bodyPart:[0.4,0.27], badge:"💧 Na.17" },
-                { title:"Heart Fire", source:"Chinese Medicine (🇨🇳)", points:820, explanation:"Moto kwenye moyo husababisha mapigo ya haraka, kukosa usingizi, na vidonda mdomoni.", bodyPart:[0.45,0.27], badge:"🔥 Na.18" },
-                { title:"Kidney Cold", source:"Chinese Medicine (🇨🇳)", points:760, explanation:"Baridi kwenye figo husababisha kojoa mara kwa mara, maumivu ya kiuno, na hofu.", bodyPart:[0.5,0.48], badge:"❄️ Na.19" },
-                { title:"Ama (Toxins) Accumulation", source:"Ayurveda (🕉️)", points:835, explanation:"Mkusanyiko wa sumu mwilini husababisha ulimi kuwa na mabaka, uchovu, na harufu mbaya ya mwili.", bodyPart:[0.5,0.38], badge:"☠️ Na.20" },
-                { title:"Ojas Depletion", source:"Ayurveda (🕉️)", points:815, explanation:"Kupungua kwa nishati ya msingi (Ojas) husababisha kinga dhaifu na uchovu sugu.", bodyPart:[0.5,0.3], badge:"⚡ Na.21" },
-                { title:"Tejas Imbalance", source:"Ayurveda (🕉️)", points:790, explanation:"Nishati ya moto wa ndani (Tejas) inapozidi husababisha hasira na uvimbe.", bodyPart:[0.45,0.27], badge:"🔥 Na.22" },
-                { title:"Prana Vata", source:"Ayurveda (🕉️)", points:780, explanation:"Aina ya Vata inayodhibiti pumzi na akili. Usawa wake husababisha wasiwasi na matatizo ya kupumua.", bodyPart:[0.4,0.27], badge:"🌬️ Na.23" },
-                { title:"Udana Vata", source:"Ayurveda (🕉️)", points:765, explanation:"Vata inayodhibiti sauti na kumbukumbu. Usawa wake husababisha matatizo ya koo na kusahau.", bodyPart:[0.5,0.18], badge:"🗣️ Na.24" },
-                { title:"Vyana Vata", source:"Ayurveda (🕉️)", points:775, explanation:"Vata inayodhibiti mzunguko wa damu na mishipa. Usawa wake husababisha maumivu ya viungo.", bodyPart:[0.5,0.5], badge:"🔄 Na.25" },
-                { title:"Samana Vata", source:"Ayurveda (🕉️)", points:760, explanation:"Vata inayodhibiti mmeng'enyo. Usawa wake husababisha gesi tumboni na kuvimbiwa.", bodyPart:[0.5,0.38], badge:"🍲 Na.26" },
-                { title:"Apana Vata", source:"Ayurveda (🕉️)", points:770, explanation:"Vata inayodhibiti mkojo na hedhi. Usawa wake husababisha matatizo ya mkojo na hedhi.", bodyPart:[0.5,0.6], badge:"🚽 Na.27" },
-                { title:"Pachaka Pitta", source:"Ayurveda (🕉️)", points:785, explanation:"Pitta inayodhibiti mmeng'enyo. Usawa wake husababisha kiungulia na asidi.", bodyPart:[0.5,0.38], badge:"🔥 Na.28" },
-                { title:"Ranjaka Pitta", source:"Ayurveda (🕉️)", points:775, explanation:"Pitta inayodhibiti damu na ini. Usawa wake husababisha matatizo ya damu na ngozi.", bodyPart:[0.5,0.48], badge:"🩸 Na.29" },
-                { title:"Alochaka Pitta", source:"Ayurveda (🕉️)", points:755, explanation:"Pitta inayodhibiti macho. Usawa wake husababisha matatizo ya macho na kuona.", bodyPart:[0.45,0.08], badge:"👁️ Na.30" }
+                { title:"Sanguine (Hot/Moist)", source:"Unani Medicine (☪️)", points:820, explanation:"Tabia ya moto na unyevu husababisha maumivu ya kichwa, shinikizo la damu, na wekundu wa uso.", bodyPart:[0.5,0.1], badge:"🔥 Na.11" }
             ],
             spiritual: [
                 { title:"Envy (Wivu) - Protection Charm", source:"African Traditional (🌍)", points:865, explanation:"Nishati ya Wivu inayokuelekea kutoka kwa watu wanaokuzunguka. Unahitaji kinga/hizibi.", bodyPart:[0.5,0.1], badge:"👁️ Na.1" },
@@ -425,29 +393,7 @@
                 { title:"Spirit possession - Ceremonial cleansing", source:"Caribbean Obeah (🏝️)", points:845, explanation:"Kuna roho ngeni inayoweza kuathiri tabia zako. Tiba inahitaji kufukuzwa kwa roho.", bodyPart:[0.5,0.1], badge:"👻 Na.5" },
                 { title:"Family curse - Generational healing", source:"African Traditional (🌍)", points:875, explanation:"Laana ya kizazi inayopitishwa kutoka kwa babu zako. Inahitaji uponyaji wa kizazi.", bodyPart:[0.5,0.5], badge:"⚡ Na.6" },
                 { title:"Aura disturbance - Energy field damage", source:"Mystical Arts (🔮)", points:830, explanation:"Nguvu ya mwili wako (aura) imeharibika. Inahitaji kusafishwa na kutengenezwa.", bodyPart:[0.5,0.5], badge:"✨ Na.7" },
-                { title:"Psychic attack - Spiritual intrusion", source:"Mystical Arts (🔮)", points:855, explanation:"Unashambuliwa kiroho na watu wenye nia mbaya. Unahitaji ulinzi wa kiroho.", bodyPart:[0.5,0.1], badge:"⚔️ Na.8" },
-                { title:"Entity attachment - Parasitic energy", source:"Mystical Arts (🔮)", points:840, explanation:"Kuna kitu kimeambatana na nishati yako. Inahitaji kufukuzwa.", bodyPart:[0.5,0.5], badge:"👾 Na.9" },
-                { title:"Karmic debt - Ancestral pattern", source:"Ancient Indian Vedas (🕉️)", points:860, explanation:"Deni la karmic kutoka kwa mizazi linaathiri maisha yako. Fanya sadaka na toba.", bodyPart:[0.5,0.5], badge:"🔄 Na.10" },
-                { title:"Soul retrieval needed - Trauma recovery", source:"Mystical Arts (🔮)", points:815, explanation:"Sehemu ya roho yako imepotea kutokana na majeraha. Inahitaji kurudishwa.", bodyPart:[0.5,0.5], badge:"💔 Na.11" },
-                { title:"Grounding deficiency - Ungrounded", source:"Mystical Arts (🔮)", points:775, explanation:"Hujajikita vizuri katika ulimwengu wa kweli. Unahitaji kutulia na kutafakari.", bodyPart:[0.5,0.5], badge:"🌍 Na.12" },
-                { title:"Third eye blockage - Intuition blocked", source:"Mystical Arts (🔮)", points:790, explanation:"Jicho la tatu limeziba, huwezi kuona mambo ya kiroho. Fungua kwa kutafakari.", bodyPart:[0.5,0.1], badge:"👁️ Na.13" },
-                { title:"Crown chakra imbalance", source:"Ancient Indian Vedas (🕉️)", points:805, explanation:"Chakra ya taji haifanyi kazi vizuri, unajitenga na Mungu. Fanya sala na kutafakari.", bodyPart:[0.5,0.05], badge:"👑 Na.14" },
-                { title:"Sacral chakra blockage", source:"Ancient Indian Vedas (🕉️)", points:785, explanation:"Chakra ya ubunifu na hisia imeziba. Husababisha matatizo ya ngono na hisia.", bodyPart:[0.5,0.6], badge:"🧡 Na.15" },
-                { title:"Solar plexus chakra weakness", source:"Ancient Indian Vedas (🕉️)", points:795, explanation:"Chakra ya nguvu na kujiamini dhaifu. Husababisha kukosa ujasiri na matatizo ya tumbo.", bodyPart:[0.5,0.38], badge:"💛 Na.16" },
-                { title:"Heart chakra closed", source:"Ancient Indian Vedas (🕉️)", points:815, explanation:"Chakra ya upendo imefungwa. Husababisha kutojali na magonjwa ya moyo.", bodyPart:[0.45,0.27], badge:"💚 Na.17" },
-                { title:"Throat chakra blocked", source:"Ancient Indian Vedas (🕉️)", points:775, explanation:"Chakra ya mawasiliano imeziba. Husababisha matatizo ya koo na kushindwa kujieleza.", bodyPart:[0.5,0.18], badge:"💙 Na.18" },
-                { title:"Ancestral neglect - Appeasement needed", source:"African Traditional (🌍)", points:850, explanation:"Umewasahau mizazi yako, wanahitaji kuheshimiwa. Fanya matambiko.", bodyPart:[0.5,0.5], badge:"🕯️ Na.19" },
-                { title:"Protection ritual - Amulet preparation", source:"Caribbean Obeah (🏝️)", points:825, explanation:"Unahitaji kutengeneza hirizi ya kinga dhidi ya maadui.", bodyPart:[0.5,0.5], badge:"🪬 Na.20" },
-                { title:"Cleansing bath - Spiritual purification", source:"African Traditional (🌍)", points:805, explanation:"Unahitaji kuoga kwa maji ya mitishamba ili kujisafisha kiroho.", bodyPart:[0.5,0.5], badge:"🚿 Na.21" },
-                { title:"Divination - Cowrie shell reading", source:"Caribbean Obeah (🏝️)", points:835, explanation:"Unahitaji kufanya ramli kwa makombora ili kujua chanzo cha matatizo.", bodyPart:[0.5,0.1], badge:"🐚 Na.22" },
-                { title:"Offering required - To ancestors", source:"African Traditional (🌍)", points:815, explanation:"Weka sadaka kwa mizazi yako ili wakubariki na kukuondolea msiba.", bodyPart:[0.5,0.5], badge:"🍚 Na.23" },
-                { title:"Spiritual stagnation - Energy block", source:"Mystical Arts (🔮)", points:785, explanation:"Nishati yako ya kiroho imekwama. Unahitaji kuamsha tena kwa sala na nia njema.", bodyPart:[0.5,0.5], badge:"⛔ Na.24" },
-                { title:"Bad medicine - Reversal ceremony", source:"Caribbean Obeah (🏝️)", points:865, explanation:"Umepewa dawa mbaya na adui. Unahitaji sherehe ya kurudisha nyuma.", bodyPart:[0.5,0.5], badge:"💊 Na.25" },
-                { title:"Offended spirits - Appeasement", source:"African Traditional (🌍)", points:840, explanation:"Roho fulani zimekasirika nawe. Fanya matambiko ya kuzituliza.", bodyPart:[0.5,0.5], badge:"👿 Na.26" },
-                { title:"Broken taboo - Purification needed", source:"African Traditional (🌍)", points:820, explanation:"Umekiuka mwiko. Jitakase kwa kufanya taratibu za kienyeji.", bodyPart:[0.5,0.5], badge:"🚫 Na.27" },
-                { title:"Witchcraft - Counter-spell needed", source:"Caribbean Obeah (🏝️)", points:875, explanation:"Umerogwa. Unahitaji kupigania kwa nguvu za kiroho.", bodyPart:[0.5,0.5], badge:"🧙 Na.28" },
-                { title:"Sorcery - Breaking spell ceremony", source:"African Traditional (🌍)", points:855, explanation:"Uchawi umefanywa dhidi yako. Fanya sherehe ya kuvunja uchawi.", bodyPart:[0.5,0.5], badge:"⚡ Na.29" },
-                { title:"Hex - Removal ritual", source:"Caribbean Obeah (🏝️)", points:835, explanation:"Laana imewekwa kwako. Inahitaji kutolewa kwa njia za kiroho.", bodyPart:[0.5,0.5], badge:"💢 Na.30" }
+                { title:"Psychic attack - Spiritual intrusion", source:"Mystical Arts (🔮)", points:855, explanation:"Unashambuliwa kiroho na watu wenye nia mbaya. Unahitaji ulinzi wa kiroho.", bodyPart:[0.5,0.1], badge:"⚔️ Na.8" }
             ]
         };
 
@@ -455,9 +401,8 @@
         // VARIABLES
         // ============================================
         let scanInterval;
-        let scanTime = 60; // dakika 1
+        let scanTime = 60;
         let resultsByCategory = { modern: [], traditional: [], spiritual: [] };
-        let allDots = [];
 
         // ============================================
         // SEEDED RANDOM (kutumia jina la mgonjwa)
@@ -476,10 +421,9 @@
         // ============================================
         // CHAGUA MATOKEO KWA NASA (bila kurudia)
         // ============================================
-        function selectRandomResults(category, patientName, count = 8) {
+        function selectRandomResults(category, patientName, count = 6) {
             const list = allResults[category];
             const rand = seededRandom(patientName + category);
-            // Create a copy and shuffle
             const shuffled = [...list];
             for (let i = shuffled.length - 1; i > 0; i--) {
                 const j = Math.floor(rand() * (i + 1));
@@ -487,7 +431,7 @@
             }
             return shuffled.slice(0, count).map((item, index) => ({
                 ...item,
-                badge: item.badge.replace(/\d+/, (index + 1).toString()) // renumber badges
+                badge: item.badge.replace(/\d+/, (index + 1).toString())
             }));
         }
 
@@ -496,11 +440,10 @@
         // ============================================
         function startScan() {
             const patientName = document.getElementById('patientName').value || 'Default';
-            // Select fresh results for this patient
             resultsByCategory = {
-                modern: selectRandomResults('modern', patientName, 8),
-                traditional: selectRandomResults('traditional', patientName, 8),
-                spiritual: selectRandomResults('spiritual', patientName, 8)
+                modern: selectRandomResults('modern', patientName, 6),
+                traditional: selectRandomResults('traditional', patientName, 6),
+                spiritual: selectRandomResults('spiritual', patientName, 6)
             };
             
             scanTime = 60;
@@ -508,16 +451,14 @@
             document.getElementById('scanProgress').style.width = '0%';
             document.getElementById('timeRemaining').textContent = '01:00';
             
-            // Clear previous results
             document.getElementById('modernResults').innerHTML = '';
             document.getElementById('traditionalResults').innerHTML = '';
             document.getElementById('spiritualResults').innerHTML = '';
             document.getElementById('dotOverlay').innerHTML = '';
-            allDots = [];
             
-            // Update total score
             updateTotalScore();
             
+            if (scanInterval) clearInterval(scanInterval);
             scanInterval = setInterval(updateScan, 1000);
         }
 
@@ -528,33 +469,19 @@
             document.getElementById('timeRemaining').textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
             document.getElementById('scanProgress').style.width = ((60 - scanTime)/60*100) + '%';
             
-            const texts = [
-                "Kuchambua vinasaba (DNA)...",
-                "Kupima picha za X-ray...",
-                "Kuchunguza damu...",
-                "Kutazama uti wa mgongo...",
-                "Kufanya uchambuzi wa Ayurveda...",
-                "Kusoma Unani medicine...",
-                "Kuchunguza nguvu za kiroho...",
-                "Kutafuta usawa wa mizazi...",
-                "Kukusanya matokeo..."
-            ];
-            document.getElementById('scanningText').textContent = texts[Math.floor((60-scanTime)/7)] || "Karibu kumaliza...";
-            
-            // Reveal results gradually every 6 seconds
             const elapsed = 60 - scanTime;
             if (elapsed % 6 === 0 && elapsed > 0) {
-                const modernIndex = Math.floor(elapsed / 6) - 1;
-                if (modernIndex < resultsByCategory.modern.length) {
-                    displayResult('modern', resultsByCategory.modern[modernIndex]);
+                const modernIdx = Math.floor(elapsed / 6) - 1;
+                if (modernIdx < resultsByCategory.modern.length) {
+                    displayResult('modern', resultsByCategory.modern[modernIdx]);
                 }
-                const traditionalIndex = Math.floor(elapsed / 6) - 1;
-                if (traditionalIndex < resultsByCategory.traditional.length) {
-                    displayResult('traditional', resultsByCategory.traditional[traditionalIndex]);
+                const traditionalIdx = Math.floor(elapsed / 6) - 1;
+                if (traditionalIdx < resultsByCategory.traditional.length) {
+                    displayResult('traditional', resultsByCategory.traditional[traditionalIdx]);
                 }
-                const spiritualIndex = Math.floor(elapsed / 6) - 1;
-                if (spiritualIndex < resultsByCategory.spiritual.length) {
-                    displayResult('spiritual', resultsByCategory.spiritual[spiritualIndex]);
+                const spiritualIdx = Math.floor(elapsed / 6) - 1;
+                if (spiritualIdx < resultsByCategory.spiritual.length) {
+                    displayResult('spiritual', resultsByCategory.spiritual[spiritualIdx]);
                 }
             }
             
@@ -582,7 +509,6 @@
             `;
             container.appendChild(card);
             
-            // Add dot
             const dotColor = category === 'modern' ? '#3b82f6' : category === 'traditional' ? '#f59e0b' : '#8b5cf6';
             const dot = document.createElement('div');
             dot.className = 'dot';
@@ -607,37 +533,10 @@
                 <div class="data-item"><strong>Chanzo:</strong> ${result.source}</div>
                 <div class="data-item"><strong>Pointi:</strong> ${result.points}/900</div>
                 <div class="data-item"><strong>Uhakika:</strong> ${Math.round(result.points/9)}%</div>
-                <div class="data-item"><strong>Maelezo kamili:</strong> ${result.explanation}</div>
-                <div class="data-item"><strong>Tiba inayopendekezwa:</strong> ${getTreatment(result)}</div>
-                <div class="data-item"><strong>Dawa:</strong> ${getMedicine(result)}</div>
+                <div class="data-item"><strong>Maelezo:</strong> ${result.explanation}</div>
+                <div class="data-item"><strong>Tiba:</strong> Fuatiliwa na daktari</div>
             `;
             document.getElementById('infoModal').style.display = 'flex';
-        }
-
-        function getTreatment(r) {
-            if (r.title.includes("Hemochromatosis")) return "Kula vyakula visivyo na chuma nyingi (epuka nyanya, machungwa)";
-            if (r.title.includes("Kyphosis")) return "Mazoezi ya kunyoosha mgongo, tembea sawa";
-            if (r.title.includes("Thrombotic")) return "Dawa za kuzuia damu kuganda (aspirin)";
-            if (r.title.includes("Rheumatoid")) return "Dawa za kupunguza uvimbe, pumzisha viungo";
-            if (r.title.includes("UTI")) return "Kunywa maji mengi, dawa za antibiotiki";
-            if (r.title.includes("Plantar")) return "Kutibiwa na dawa za kupunguza maumivu, viatu vizuri";
-            if (r.title.includes("Envy") || r.title.includes("Wivu")) return "Kutafuta hirizi au kufanya matambiko ya kinga";
-            if (r.title.includes("Cord")) return "Kutengana na watu wanaokuletea msongo";
-            if (r.title.includes("Ancestral")) return "Fanya matambiko ya kuwaombea mizazi";
-            if (r.title.includes("Evil eye")) return "Vaa hirizi au fanya kitasa cha kinga";
-            return "Fuatiliwa na daktari au mganga wa kienyeji";
-        }
-
-        function getMedicine(r) {
-            if (r.title.includes("Hemochromatosis")) return "Epuka vidonge vya chuma";
-            if (r.title.includes("Kyphosis")) return "Paracetamol kwa maumivu";
-            if (r.title.includes("Thrombotic")) return "Aspirin 75mg kwa siku";
-            if (r.title.includes("Rheumatoid")) return "Ibuprofen, Methotrexate";
-            if (r.title.includes("UTI")) return "Ciprofloxacin 500mg kwa siku 5";
-            if (r.title.includes("Plantar")) return "Naproxen, pedi za viatu";
-            if (r.title.includes("Envy")) return "Hirizi za kinga, kufukiza ubani";
-            if (r.title.includes("Ancestral")) return "Kupunga ubani na kuweka sadaka";
-            return "Dawa za asili kushauriana na mganga";
         }
 
         function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
@@ -657,12 +556,11 @@
 
         window.addEventListener('load', () => {
             document.getElementById('scannerOverlay').style.display = 'none';
-            // Pre-select results for default patient
             const defaultName = document.getElementById('patientName').value;
             resultsByCategory = {
-                modern: selectRandomResults('modern', defaultName, 8),
-                traditional: selectRandomResults('traditional', defaultName, 8),
-                spiritual: selectRandomResults('spiritual', defaultName, 8)
+                modern: selectRandomResults('modern', defaultName, 6),
+                traditional: selectRandomResults('traditional', defaultName, 6),
+                spiritual: selectRandomResults('spiritual', defaultName, 6)
             };
             updateTotalScore();
         });
