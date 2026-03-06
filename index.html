@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏥 MEDISCAN TIBU • MATOKEO KWA KISWAHILI</title>
+    <title>🏥 MEDISCAN TIBU • MATOKEO YA KIPEKEE</title>
     <style>
         * {
             margin: 0;
@@ -11,7 +11,6 @@
             box-sizing: border-box;
             font-family: 'Inter', 'Segoe UI', sans-serif;
         }
-        
         body {
             background: linear-gradient(135deg, #0a0f1e 0%, #1a1f35 100%);
             min-height: 100vh;
@@ -20,7 +19,6 @@
             justify-content: center;
             align-items: center;
         }
-        
         .container {
             max-width: 1600px;
             width: 100%;
@@ -32,8 +30,6 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.5);
             position: relative;
         }
-        
-        /* 1-MINUTE SCANNER OVERLAY */
         .scanner-overlay {
             position: absolute;
             top: 0;
@@ -47,16 +43,13 @@
             align-items: center;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            transition: opacity 1s;
         }
-        
         .scanner-content {
             text-align: center;
             color: #3b82f6;
             max-width: 600px;
             padding: 30px;
         }
-        
         .scanner-title {
             font-size: 2.2rem;
             font-weight: 800;
@@ -65,529 +58,239 @@
             letter-spacing: 3px;
             animation: glow 2s infinite;
         }
-        
         @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px #3b82f6; }
-            50% { text-shadow: 0 0 40px #3b82f6; }
+            0%,100% { text-shadow:0 0 20px #3b82f6; }
+            50% { text-shadow:0 0 40px #3b82f6; }
         }
-        
         .progress-container {
-            width: 100%;
-            height: 20px;
-            background: #1e293b;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-            border: 2px solid #3b82f6;
+            width:100%; height:20px; background:#1e293b; border-radius:10px; margin:20px 0; overflow:hidden; border:2px solid #3b82f6;
         }
-        
         .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            transition: width 0.3s;
-            position: relative;
-            overflow: hidden;
+            height:100%; width:0%; background:linear-gradient(90deg,#3b82f6,#8b5cf6); transition:width 0.3s; position:relative; overflow:hidden;
         }
-        
         .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
+            content:''; position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent); animation:shimmer 2s infinite;
         }
-        
         @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% { transform:translateX(-100%); }
+            100% { transform:translateX(100%); }
         }
-        
         .time-remaining {
-            font-size: 3rem;
-            font-weight: 800;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
+            font-size:3rem; font-weight:800; margin:15px 0; font-family:'Courier New', monospace;
         }
-        
         .scanning-text {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            margin: 10px 0;
-            min-height: 50px;
+            font-size:1.1rem; color:#94a3b8; margin:10px 0; min-height:50px;
         }
-        
         .scanner-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #3b82f6;
+            display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:15px; border-bottom:2px solid #3b82f6;
         }
-        
         .title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size:1.8rem; font-weight:800; background:linear-gradient(135deg,#60a5fa,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
         }
-        
         .status {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #1e293b;
-            padding: 10px 20px;
-            border-radius: 40px;
-            border: 1px solid #3b82f6;
+            display:flex; align-items:center; gap:12px; background:#1e293b; padding:10px 20px; border-radius:40px; border:1px solid #3b82f6;
         }
-        
         .led {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #3b82f6;
-            box-shadow: 0 0 20px #3b82f6;
-            animation: pulse 1.5s infinite;
+            width:10px; height:10px; border-radius:50%; background:#3b82f6; box-shadow:0 0 20px #3b82f6; animation:pulse 1.5s infinite;
         }
-        
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            0%,100% { opacity:1; } 50% { opacity:0.3; }
         }
-        
         .main-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            display:grid; grid-template-columns:1.5fr 1fr; gap:20px; margin-bottom:20px;
         }
-        
         .input-section {
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 30px;
-            padding: 20px;
+            background:#0f172a; border:2px solid #334155; border-radius:30px; padding:20px;
         }
-        
         .section-title {
-            color: #94a3b8;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color:#94a3b8; font-size:1rem; text-transform:uppercase; letter-spacing:2px; margin-bottom:15px; display:flex; align-items:center; gap:8px;
         }
-        
         .input-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
+            display:flex; gap:8px; margin-bottom:15px; flex-wrap:wrap;
         }
-        
         .tab-btn {
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 40px;
-            padding: 8px 16px;
-            color: #94a3b8;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 0.8rem;
+            background:#1e293b; border:2px solid #334155; border-radius:40px; padding:8px 16px; color:#94a3b8; cursor:pointer; transition:0.3s; font-size:0.8rem;
         }
-        
         .tab-btn.active {
-            background: #3b82f6;
-            border-color: #3b82f6;
-            color: white;
+            background:#3b82f6; border-color:#3b82f6; color:white;
         }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
+        .tab-content { display:none; }
+        .tab-content.active { display:block; }
         .input-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            display:grid; grid-template-columns:repeat(2,1fr); gap:15px;
         }
-        
-        .input-full {
-            grid-column: span 2;
-        }
-        
+        .input-full { grid-column:span 2; }
         .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            display:flex; flex-direction:column; gap:6px;
         }
-        
         .input-group label {
-            color: #cbd5e1;
-            font-size: 0.8rem;
-            font-weight: 500;
+            color:#cbd5e1; font-size:0.8rem; font-weight:500;
         }
-        
         .input-group input, .input-group select, .input-group textarea {
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 16px;
-            padding: 12px 16px;
-            color: white;
-            font-size: 0.9rem;
-            transition: all 0.3s;
+            background:#1e293b; border:2px solid #334155; border-radius:16px; padding:12px 16px; color:white; font-size:0.9rem; transition:0.3s;
         }
-        
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
-            border-color: #3b82f6;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+            border-color:#3b82f6; outline:none; box-shadow:0 0 0 3px rgba(59,130,246,0.2);
         }
-        
         .vital-signs {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 15px;
+            display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:15px;
         }
-        
         .vital-card {
-            background: #1e293b;
-            border-radius: 16px;
-            padding: 12px;
-            text-align: center;
-            border: 2px solid #334155;
+            background:#1e293b; border-radius:16px; padding:12px; text-align:center; border:2px solid #334155;
         }
-        
         .vital-label {
-            color: #94a3b8;
-            font-size: 0.7rem;
-            margin-bottom: 4px;
+            color:#94a3b8; font-size:0.7rem; margin-bottom:4px;
         }
-        
         .vital-value {
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 700;
+            color:white; font-size:1.3rem; font-weight:700;
         }
-        
-        /* CATEGORIZED RESULTS SECTION */
         .results-section {
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 30px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background:#0f172a; border:2px solid #334155; border-radius:30px; padding:20px; margin-bottom:20px;
         }
-        
         .category-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 10px;
+            display:flex; gap:10px; margin-bottom:20px; border-bottom:2px solid #334155; padding-bottom:10px;
         }
-        
         .category-btn {
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            background: #1e293b;
-            color: #94a3b8;
-            border: 2px solid #334155;
+            padding:10px 20px; border-radius:30px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:0.3s; background:#1e293b; color:#94a3b8; border:2px solid #334155;
         }
-        
         .category-btn.active {
-            background: #3b82f6;
-            color: white;
-            border-color: #3b82f6;
+            background:#3b82f6; color:white; border-color:#3b82f6;
         }
-        
-        .category-btn.modern { border-left: 4px solid #3b82f6; }
-        .category-btn.traditional { border-left: 4px solid #f59e0b; }
-        .category-btn.spiritual { border-left: 4px solid #8b5cf6; }
-        
-        .category-content {
-            display: none;
-        }
-        
-        .category-content.active {
-            display: block;
-        }
-        
+        .category-btn.modern { border-left:4px solid #3b82f6; }
+        .category-btn.traditional { border-left:4px solid #f59e0b; }
+        .category-btn.spiritual { border-left:4px solid #8b5cf6; }
+        .category-content { display:none; }
+        .category-content.active { display:block; }
         .result-card {
-            background: #1e293b;
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 15px;
-            border-left: 6px solid;
-            animation: slideIn 0.5s ease-out;
+            background:#1e293b; border-radius:20px; padding:18px; margin-bottom:15px; border-left:6px solid; animation:slideIn 0.5s ease-out;
         }
-        
-        .result-card.modern { border-left-color: #3b82f6; }
-        .result-card.traditional { border-left-color: #f59e0b; }
-        .result-card.spiritual { border-left-color: #8b5cf6; }
-        
+        .result-card.modern { border-left-color:#3b82f6; }
+        .result-card.traditional { border-left-color:#f59e0b; }
+        .result-card.spiritual { border-left-color:#8b5cf6; }
         .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
         }
-        
         .result-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: white;
+            font-size:1.2rem; font-weight:700; color:white;
         }
-        
         .result-badge {
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            padding:4px 12px; border-radius:30px; font-size:0.8rem; font-weight:600;
         }
-        
-        .badge-modern { background: #3b82f6; color: white; }
-        .badge-traditional { background: #f59e0b; color: white; }
-        .badge-spiritual { background: #8b5cf6; color: white; }
-        
+        .badge-modern { background:#3b82f6; color:white; }
+        .badge-traditional { background:#f59e0b; color:white; }
+        .badge-spiritual { background:#8b5cf6; color:white; }
         .result-source {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color:#94a3b8; font-size:0.85rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;
         }
-        
         .result-explanation {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 12px;
-            padding: 10px;
-            background: #0f172a;
-            border-radius: 12px;
+            color:#cbd5e1; font-size:0.95rem; line-height:1.6; margin-bottom:12px; padding:10px; background:#0f172a; border-radius:12px;
         }
-        
         .result-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #334155;
+            display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:10px; border-top:1px solid #334155;
         }
-        
         .result-points {
-            color: #3b82f6;
-            font-weight: 600;
+            color:#3b82f6; font-weight:600;
         }
-        
         .result-action {
-            color: #10b981;
-            cursor: pointer;
-            font-size: 0.9rem;
+            color:#10b981; cursor:pointer; font-size:0.9rem;
         }
-        
-        .result-action:hover {
-            text-decoration: underline;
-        }
-        
+        .result-action:hover { text-decoration:underline; }
         .xray-section {
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 30px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background:#0f172a; border:2px solid #334155; border-radius:30px; padding:20px; margin-bottom:20px;
         }
-        
         .xray-container {
-            display: flex;
-            gap: 25px;
-            align-items: center;
+            display:flex; gap:25px; align-items:center;
         }
-        
         .xray-image-container {
-            flex: 1;
-            background: #000;
-            border-radius: 25px;
-            padding: 15px;
-            position: relative;
-            text-align: center;
-            min-height: 350px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            flex:1; background:#000; border-radius:25px; padding:15px; position:relative; text-align:center; min-height:350px; display:flex; justify-content:center; align-items:center;
         }
-        
         .xray-image {
-            max-width: 100%;
-            max-height: 320px;
-            border-radius: 15px;
-            opacity: 0.95;
-            box-shadow: 0 0 30px rgba(0, 255, 157, 0.5);
-            filter: invert(1) contrast(1.3);
+            max-width:100%; max-height:320px; border-radius:15px; opacity:0.95; box-shadow:0 0 30px rgba(0,255,157,0.5); filter:invert(1) contrast(1.3);
         }
-        
         .dot-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
+            position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;
         }
-        
         .dot {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 0, 0, 0.9);
-            box-shadow: 0 0 20px rgba(255,0,0,0.9);
-            transform: translate(-50%, -50%);
-            transition: all 0.3s;
-            pointer-events: none;
-            animation: pulse 1s infinite;
+            position:absolute; border-radius:50%; background:rgba(255,0,0,0.9); box-shadow:0 0 20px rgba(255,0,0,0.9); transform:translate(-50%,-50%); animation:pulse 1s infinite; pointer-events:none;
         }
-        
         .doctor-section {
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 30px;
-            padding: 20px;
+            background:#0f172a; border:2px solid #334155; border-radius:30px; padding:20px;
         }
-        
         .doctor-input {
-            width: 100%;
-            min-height: 80px;
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 16px;
-            padding: 12px;
-            color: white;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
+            width:100%; min-height:80px; background:#1e293b; border:2px solid #334155; border-radius:16px; padding:12px; color:white; font-size:0.9rem; margin-bottom:12px;
         }
-        
         .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-            justify-content: flex-end;
+            display:flex; gap:12px; margin-top:20px; justify-content:flex-end;
         }
-        
         .btn {
-            padding: 14px 28px;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
+            padding:14px 28px; border-radius:40px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:0.3s; border:none;
         }
-        
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
+            background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:white;
         }
-        
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(59,130,246,0.4);
+            transform:translateY(-2px); box-shadow:0 10px 30px rgba(59,130,246,0.4);
         }
-        
         .btn-outline {
-            background: transparent;
-            border: 2px solid #3b82f6;
-            color: white;
+            background:transparent; border:2px solid #3b82f6; color:white;
         }
-        
         @media print {
-            .scanner-header, .input-section, .button-group, .scanner-overlay {
-                display: none !important;
-            }
-            .xray-section { page-break-inside: avoid; }
+            .scanner-header, .input-section, .button-group, .scanner-overlay { display:none !important; }
+            .xray-section { page-break-inside:avoid; }
         }
-        
         .clinic-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #64748b;
-            font-size: 0.8rem;
-            border-top: 2px solid #334155;
-            padding-top: 15px;
+            text-align:center; margin-top:20px; color:#64748b; font-size:0.8rem; border-top:2px solid #334155; padding-top:15px;
         }
-        
+        .modal {
+            display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center;
+        }
+        .modal-content {
+            background:#0f172a; border:2px solid #3b82f6; border-radius:30px; padding:30px; max-width:500px; width:90%; color:white; position:relative;
+        }
+        .modal-close {
+            position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:#94a3b8;
+        }
+        .modal-close:hover { color:white; }
+        .modal-title { font-size:1.3rem; margin-bottom:15px; color:#3b82f6; }
+        .modal-data { max-height:400px; overflow-y:auto; }
+        .data-item { padding:8px; margin-bottom:6px; background:#1e293b; border-radius:6px; font-size:0.85rem; }
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity:0; transform:translateX(-20px); }
+            to { opacity:1; transform:translateX(0); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 1-MINUTE SCANNER OVERLAY -->
         <div class="scanner-overlay" id="scannerOverlay">
             <div class="scanner-content">
                 <div class="scanner-title">🔬 CLINICAL DIAGNOSTIC SCAN</div>
-                <div class="progress-container">
-                    <div class="progress-bar" id="scanProgress"></div>
-                </div>
+                <div class="progress-container"><div class="progress-bar" id="scanProgress"></div></div>
                 <div class="time-remaining" id="timeRemaining">01:00</div>
                 <div class="scanning-text" id="scanningText">Initializing 20+ validated medical modules...</div>
             </div>
         </div>
-
         <div class="scanner-header">
-            <div class="title">🏥 MEDISCAN TIBU • MATOKEO KWA KISWAHILI</div>
-            <div class="status">
-                <div class="led"></div>
-                <span>DR WILLIMA CLINICAL RESEARCH</span>
-            </div>
+            <div class="title">🏥 MEDISCAN TIBU • MATOKEO YA KIPEKEE</div>
+            <div class="status"><div class="led"></div><span>DR WILLIMA CLINICAL RESEARCH</span></div>
         </div>
-        
         <div class="main-grid">
-            <!-- LEFT: Input Section -->
             <div class="input-section">
                 <div class="section-title"><span>📝</span> TAARIFA ZA MGONJWA</div>
-                
                 <div class="input-tabs">
                     <div class="tab-btn active" onclick="switchTab('personal')">👤 BINAFSI</div>
                     <div class="tab-btn" onclick="switchTab('vitals')">❤️ AFYA</div>
                     <div class="tab-btn" onclick="switchTab('symptoms')">🤒 DALILI</div>
                 </div>
-                
-                <!-- PERSONAL TAB -->
                 <div id="tab-personal" class="tab-content active">
                     <div class="input-grid">
-                        <div class="input-group input-full">
-                            <label>JINA KAMILI</label>
-                            <input type="text" id="patientName" value="Juma Baraka">
-                        </div>
+                        <div class="input-group input-full"><label>JINA KAMILI</label><input type="text" id="patientName" value="Juma Baraka"></div>
                         <div class="input-group"><label>JINSIA</label><select id="gender"><option value="male">Me</option><option value="female">Ke</option></select></div>
                         <div class="input-group"><label>UMRI</label><input type="number" id="age" value="42"></div>
                         <div class="input-group"><label>TAREHE YA KUZALIWA</label><input type="date" id="birthDate" value="1983-06-15"></div>
                         <div class="input-group"><label>MAHALI</label><input type="text" id="birthPlace" value="Dar es Salaam"></div>
                     </div>
                 </div>
-                
-                <!-- VITALS TAB -->
                 <div id="tab-vitals" class="tab-content">
                     <div class="vital-signs">
                         <div class="vital-card"><div class="vital-label">UZITO (kg)</div><input type="number" id="weight" value="78"></div>
@@ -602,67 +305,37 @@
                         <div class="vital-card"><div class="vital-label">SUKARI</div><input type="number" id="bloodSugar" value="98"></div>
                     </div>
                 </div>
-                
-                <!-- SYMPTOMS TAB -->
                 <div id="tab-symptoms" class="tab-content">
-                    <div class="input-group input-full">
-                        <label>DALILI ZA ZIADA</label>
-                        <textarea id="additionalSymptoms" rows="3" placeholder="Andika dalili zingine...">Nina homa kidogo, kichwa kinauma, na ninahisi uchovu mwingi.</textarea>
-                    </div>
+                    <div class="input-group input-full"><label>DALILI ZA ZIADA</label><textarea id="additionalSymptoms" rows="3">Nina homa kidogo, kichwa kinauma, na ninahisi uchovu mwingi.</textarea></div>
                 </div>
             </div>
-            
-            <!-- RIGHT: Quick Summary -->
             <div class="input-section">
                 <div class="section-title"><span>📊</span> MUHTASARI WA SCAN</div>
                 <div style="color:white; font-size:2rem; text-align:center; margin:20px 0;" id="totalScoreDisplay">0/10,000+</div>
                 <div style="color:#94a3b8; text-align:center;">pointi za uchambuzi</div>
             </div>
         </div>
-        
-        <!-- REAL HUMAN X-RAY -->
         <div class="xray-section">
             <div class="section-title"><span>🩻</span> PICHA YA X-RAY • MAENEO YALIYOATHIRIKA</div>
             <div class="xray-container">
                 <div class="xray-image-container">
-                    <img src="https://images.unsplash.com/photo-1579154392128-bf8c7ebee541?q=80&w=2070&auto=format&fit=crop" 
-                         alt="Real Human X-Ray" class="xray-image">
+                    <img src="https://images.unsplash.com/photo-1579154392128-bf8c7ebee541?q=80&w=2070&auto=format&fit=crop" alt="Real Human X-Ray" class="xray-image">
                     <div class="dot-overlay" id="dotOverlay"></div>
                 </div>
-                <div style="flex:1; color:#94a3b8; text-align:center;">
-                    <div class="led" style="margin:0 auto 10px;"></div>
-                    <p>Matokeo yanaonekana hapa chini</p>
-                </div>
+                <div style="flex:1; color:#94a3b8; text-align:center;"><div class="led" style="margin:0 auto 10px;"></div><p>Matokeo yanaonekana hapa chini</p></div>
             </div>
         </div>
-        
-        <!-- CATEGORIZED RESULTS SECTION -->
         <div class="results-section">
             <div class="section-title"><span>🔬</span> MATOKEO YA UCHAMBUZI • AINA 3</div>
-            
             <div class="category-tabs">
                 <div class="category-btn modern active" onclick="switchCategory('modern')">🧬 Sayansi na Tiba ya Kisasa</div>
                 <div class="category-btn traditional" onclick="switchCategory('traditional')">🌿 Tiba za Asili na Kale</div>
                 <div class="category-btn spiritual" onclick="switchCategory('spiritual')">🔮 Dunia ya Kiroho na Imani</div>
             </div>
-            
-            <!-- MODERN CLINICAL RESULTS -->
-            <div id="category-modern" class="category-content active">
-                <div id="modernResults"></div>
-            </div>
-            
-            <!-- TRADITIONAL MEDICINE RESULTS -->
-            <div id="category-traditional" class="category-content">
-                <div id="traditionalResults"></div>
-            </div>
-            
-            <!-- SPIRITUAL RESULTS -->
-            <div id="category-spiritual" class="category-content">
-                <div id="spiritualResults"></div>
-            </div>
+            <div id="category-modern" class="category-content active"><div id="modernResults"></div></div>
+            <div id="category-traditional" class="category-content"><div id="traditionalResults"></div></div>
+            <div id="category-spiritual" class="category-content"><div id="spiritualResults"></div></div>
         </div>
-        
-        <!-- Doctor's Notes -->
         <div class="doctor-section">
             <div class="section-title"><span>📋</span> MAELEZO YA DAKTARI</div>
             <textarea class="doctor-input" id="doctorNotes" placeholder="Andika uchunguzi wako..."></textarea>
@@ -671,231 +344,110 @@
                 <button class="btn btn-primary" onclick="startScan()">🔬 ANZA SCAN (DAKIKA 1)</button>
             </div>
         </div>
-        
-        <div class="clinic-footer">
-            🌿 DR WILLIMA CLINICAL RESEARCH • DATA ZA KISAYANSI NA KITAMADUNI • 10,000+ POINTI
-        </div>
+        <div class="clinic-footer">🌿 DR WILLIMA CLINICAL RESEARCH • DATA ZA KISAYANSI NA KITAMADUNI • 10,000+ POINTI</div>
     </div>
-    
-    <!-- MODAL for detailed explanations -->
-    <div class="modal" id="infoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center;">
-        <div style="background:#0f172a; border:2px solid #3b82f6; border-radius:30px; padding:30px; max-width:500px; width:90%; color:white; position:relative;">
-            <span style="position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:#94a3b8;" onclick="closeModal()">&times;</span>
-            <div style="font-size:1.3rem; margin-bottom:15px; color:#3b82f6;" id="modalTitle"></div>
-            <div style="max-height:400px; overflow-y:auto;" id="modalData"></div>
-        </div>
-    </div>
+    <div class="modal" id="infoModal"><div class="modal-content"><span class="modal-close" onclick="closeModal()">&times;</span><div class="modal-title" id="modalTitle"></div><div class="modal-data" id="modalData"></div></div></div>
 
     <script>
         // ============================================
-        // DATA ZA MATOKEO (500-1000 points each)
+        // DATA KUBWA ZA MATOKEO (30-50 kwa kila kundi)
         // ============================================
-        const resultsData = {
+        const allResults = {
             modern: [
-                {
-                    title: "HFE mutation - Hemochromatosis",
-                    source: "DNA Analysis (🧬)",
-                    points: 845,
-                    explanation: "Huu ni uchambuzi wa vinasaba (DNA). Inaonyesha una vinasaba vinavyofanya mwili wako kufyonza chuma (iron) kwa wingi kupita kiasi. Hii inaweza kudhuru ini na moyo usipoingia kwenye mpango wa chakula.",
-                    bodyPart: [0.5, 0.48],
-                    category: "modern",
-                    badge: "🧬 Na. 4"
-                },
-                {
-                    title: "Kyphosis - Thoracic 60°",
-                    source: "Visible Human Project [6]",
-                    points: 780,
-                    explanation: "Hii ni hali ya uti wa mgongo kupinda (kujitokeza nundu kidogo mgongoni). Pembe ya 60° inaashiria mkao usio sahihi au udhaifu wa mifupa ya mgongo.",
-                    bodyPart: [0.5, 0.5],
-                    category: "modern",
-                    badge: "🩻 Na. 1"
-                },
-                {
-                    title: "Thrombotic complication post-COVID",
-                    source: "N3C COVID Cohort [1]",
-                    points: 890,
-                    explanation: "Inaonyesha kuna viashiria vya damu kuganda (blood clots) ambavyo vimesalia tangu ulipopata UVIKO-19.",
-                    bodyPart: [0.45, 0.27],
-                    category: "modern",
-                    badge: "🦠 Na. 2"
-                },
-                {
-                    title: "Rheumatoid Arthritis - DAS28 5.2",
-                    source: "PCORnet [9]",
-                    points: 825,
-                    explanation: "Hiki ni kipimo cha juu cha uvimbe kwenye viungo (joints). Namba 5.2 inaonyesha ugonjwa upo katika hatua kali (active stage).",
-                    bodyPart: [0.5, 0.7],
-                    category: "modern",
-                    badge: "🦴 Na. 6"
-                },
-                {
-                    title: "Urinary Tract Infection - E. coli >100k CFU",
-                    source: "TriNetX [1]",
-                    points: 760,
-                    explanation: "Maambukizi ya mfumo wa mkojo yanayosababishwa na bakteria aina ya E. coli. Namba ya >100k CFU inaonyesha maambukizi ni makubwa na yanahitaji dawa.",
-                    bodyPart: [0.5, 0.48],
-                    category: "modern",
-                    badge: "🦠 Na. 9"
-                },
-                {
-                    title: "Plantar Fasciitis",
-                    source: "OBIA Imaging [10]",
-                    points: 715,
-                    explanation: "Hii ni maumivu sugu ya unyayo (heel pain), mara nyingi huonekana kwenye ultrasound kama uvimbe wa tishu za chini ya mguu.",
-                    bodyPart: [0.45, 0.95],
-                    category: "modern",
-                    badge: "👣 Na. 10"
-                },
-                {
-                    title: "Type 2 diabetes mellitus - HbA1c 7.2%",
-                    source: "NHANES [8]",
-                    points: 835,
-                    explanation: "Kiwango cha sukari kwenye damu kiko juu (HbA1c 7.2%). Hii inaonyesha mwili wako hautumii insulini vizuri. Inahitaji kudhibiti chakula na dawa.",
-                    bodyPart: [0.5, 0.38],
-                    category: "modern",
-                    badge: "🩸 Na. 3"
-                },
-                {
-                    title: "Hypertension - Stage 1 (JNC 8)",
-                    source: "Mayo Clinic [5]",
-                    points: 795,
-                    explanation: "Shinikizo la damu la hatua ya kwanza (BP 128/82). Linahitaji kufuatiliwa na kubadilisha mlo ili lisije likaongezeka.",
-                    bodyPart: [0.45, 0.27],
-                    category: "modern",
-                    badge: "❤️ Na. 5"
-                },
-                {
-                    title: "Obstructive sleep apnea - AHI 22",
-                    source: "Mayo Clinic [5]",
-                    points: 770,
-                    explanation: "Kukosa kupumua vizuri usingizini (apnea). AHI 22 inaonyesha hali ya wastani. Husababisha kuchoka mchana na kuongezeka kwa shinikizo la damu.",
-                    bodyPart: [0.5, 0.1],
-                    category: "modern",
-                    badge: "😴 Na. 7"
-                },
-                {
-                    title: "GERD - LA Grade B esophagitis",
-                    source: "PCORnet [9]",
-                    points: 740,
-                    explanation: "Kiwango cha juu cha asidi ya tumbo kupanda kwenye koo. LA Grade B inaonyesha kuna vidonda vidogo kwenye umio unaosababisha maumivu ya kifua na kikohozi.",
-                    bodyPart: [0.5, 0.38],
-                    category: "modern",
-                    badge: "🔥 Na. 8"
-                }
+                { title:"HFE mutation - Hemochromatosis", source:"DNA Analysis (🧬)", points:845, explanation:"Huu ni uchambuzi wa vinasaba (DNA). Inaonyesha una vinasaba vinavyofanya mwili wako kufyonza chuma kwa wingi kupita kiasi. Hii inaweza kudhuru ini na moyo.", bodyPart:[0.5,0.48], badge:"🧬 Na.1" },
+                { title:"Kyphosis - Thoracic 60°", source:"Visible Human Project [6]", points:780, explanation:"Hii ni hali ya uti wa mgongo kupinda (kujitokeza nundu). Pembe ya 60° inaashiria mkao usio sahihi au udhaifu wa mifupa.", bodyPart:[0.5,0.5], badge:"🩻 Na.2" },
+                { title:"Thrombotic complication post-COVID", source:"N3C COVID Cohort [1]", points:890, explanation:"Inaonyesha kuna viashiria vya damu kuganda (blood clots) vilivyosalia tangu ulipopata UVIKO-19.", bodyPart:[0.45,0.27], badge:"🦠 Na.3" },
+                { title:"Rheumatoid Arthritis - DAS28 5.2", source:"PCORnet [9]", points:825, explanation:"Kipimo cha juu cha uvimbe kwenye viungo (joints). Namba 5.2 inaonyesha ugonjwa upo katika hatua kali.", bodyPart:[0.5,0.7], badge:"🦴 Na.4" },
+                { title:"Urinary Tract Infection - E. coli", source:"TriNetX [1]", points:760, explanation:"Maambukizi ya mfumo wa mkojo yanayosababishwa na E. coli. (>100k CFU inaonyesha maambukizi makubwa).", bodyPart:[0.5,0.48], badge:"🦠 Na.5" },
+                { title:"Plantar Fasciitis", source:"OBIA Imaging [10]", points:715, explanation:"Maumivu sugu ya unyayo (heel pain), huonekana kwenye ultrasound kama uvimbe wa tishu za chini ya mguu.", bodyPart:[0.45,0.95], badge:"👣 Na.6" },
+                { title:"Type 2 diabetes mellitus - HbA1c 7.2%", source:"NHANES [8]", points:835, explanation:"Kiwango cha sukari kwenye damu kiko juu. Inahitaji kudhibiti chakula na dawa.", bodyPart:[0.5,0.38], badge:"🩸 Na.7" },
+                { title:"Hypertension - Stage 1", source:"Mayo Clinic [5]", points:795, explanation:"Shinikizo la damu la hatua ya kwanza (BP 128/82). Linahitaji kufuatiliwa na kubadilisha mlo.", bodyPart:[0.45,0.27], badge:"❤️ Na.8" },
+                { title:"Obstructive sleep apnea - AHI 22", source:"Mayo Clinic [5]", points:770, explanation:"Kukosa kupumua vizuri usingizini. AHI 22 inaonyesha hali ya wastani.", bodyPart:[0.5,0.1], badge:"😴 Na.9" },
+                { title:"GERD - LA Grade B esophagitis", source:"PCORnet [9]", points:740, explanation:"Kiwango cha juu cha asidi ya tumbo kupanda kwenye koo. Inaweza kusababisha vidonda kwenye umio.", bodyPart:[0.5,0.38], badge:"🔥 Na.10" },
+                { title:"Coronary artery disease - 70% stenosis LAD", source:"Mayo Clinic [5]", points:880, explanation:"Kuziba kwa mshipa wa moyo (LAD) kwa 70%. Hii inaweza kusababisha mshtuko wa moyo.", bodyPart:[0.45,0.27], badge:"❤️ Na.11" },
+                { title:"COPD - GOLD Stage 2", source:"NHANES [8]", points:810, explanation:"Ugonjwa sugu wa mapafu unaosababisha kukosa pumzi. FEV1 65% ya kawaida.", bodyPart:[0.4,0.27], badge:"🫁 Na.12" },
+                { title:"Chronic kidney disease - Stage 3a", source:"TriNetX [1]", points:800, explanation:"Figo zimepungua kazi (eGFR 55). Inahitaji kufuatilia shinikizo la damu na lishe.", bodyPart:[0.5,0.48], badge:"🧂 Na.13" },
+                { title:"Asthma - GINA Step 3", source:"PCORnet [9]", points:765, explanation:"Pumu isiyodhibitiwa vizuri. Inahitaji dawa za kuvuta na kuepuka vichochezi.", bodyPart:[0.4,0.27], badge:"🌬️ Na.14" },
+                { title:"Atrial fibrillation - CHA2DS2-VASc 3", source:"TriNetX [1]", points:850, explanation:"Mapigo ya moyo yasiyo ya kawaida. Hatari ya kupata kiharusi ni 3.2% kwa mwaka.", bodyPart:[0.45,0.27], badge:"💓 Na.15" },
+                { title:"Heart failure with preserved EF", source:"Mayo Clinic [5]", points:820, explanation:"Kushindwa kwa moyo kusukuma damu vizuri hata kama nguvu ya moyo iko sawa.", bodyPart:[0.45,0.27], badge:"💔 Na.16" },
+                { title:"Community-acquired pneumonia", source:"N3C [1]", points:790, explanation:"Bakteria wamevamia mapafu. CURB-65 score 2 inahitaji kulazwa hospitalini.", bodyPart:[0.4,0.27], badge:"🫁 Na.17" },
+                { title:"Deep vein thrombosis - proximal", source:"OBIA [10]", points:835, explanation:"Damu kuganda kwenye mshipa wa kina cha mguu. Inahitaji dawa za kuzuia kuganda.", bodyPart:[0.5,0.7], badge:"🩸 Na.18" },
+                { title:"Pulmonary embolism - segmental", source:"PCORnet [9]", points:860, explanation:"Kuganda kwa damu kwenye mapafu. Hali ya hatari inayohitaji matibabu ya haraka.", bodyPart:[0.4,0.27], badge:"⚠️ Na.19" },
+                { title:"Acute pancreatitis - Ranson 3", source:"TriNetX [1]", points:805, explanation:"Kuvimba kwa kongosho. Ranson 3 inaonyesha hatua ya wastani.", bodyPart:[0.5,0.38], badge:"🔥 Na.20" },
+                { title:"Cholelithiasis - symptomatic", source:"OBIA [10]", points:745, explanation:"Mawe kwenye nyongo yanayosababisha maumivu. Inahitaji upasuaji.", bodyPart:[0.5,0.38], badge:"🪨 Na.21" },
+                { title:"Diverticulitis - Hinchey Ia", source:"PCORnet [9]", points:760, explanation:"Kuvimba kwa mifuko kwenye utumbo mpana. Inatibika kwa dawa na chakula.", bodyPart:[0.5,0.42], badge:"🩺 Na.22" },
+                { title:"Breast cancer - ER+/HER2- Stage IIA", source:"PCORnet [9]", points:895, explanation:"Saratani ya matiti inayoitikia homoni. Hatua ya IIA inaweza kutibika.", bodyPart:[0.5,0.1], badge:"🎀 Na.23" },
+                { title:"Prostate cancer - Gleason 3+4", source:"Mayo Clinic [5]", points:885, explanation:"Saratani ya tezi dume. Gleason 7 inaonyesha hatari ya wastani.", bodyPart:[0.5,0.6], badge:"🔬 Na.24" },
+                { title:"Colorectal cancer - Stage IIIB", source:"TriNetX [1]", points:890, explanation:"Saratani ya utumbo mpana imeenea kwenye nodi za limfu. Inahitaji upasuaji na kemotherapi.", bodyPart:[0.5,0.42], badge:"🦠 Na.25" },
+                { title:"Lung cancer - NSCLC Stage IIIA", source:"N3C [1]", points:880, explanation:"Saratani ya mapafu ya aina isiyo ndogo. Hatua ya IIIA inahitaji tiba mchanganyiko.", bodyPart:[0.4,0.27], badge:"🫁 Na.26" },
+                { title:"HIV - CD4 450, viral load undetectable", source:"DHS [3]", points:815, explanation:"VVU inayodhibitiwa vizuri na dawa. CD4 450 ni nzuri.", bodyPart:[0.5,0.3], badge:"🩸 Na.27" },
+                { title:"Hepatitis C - Genotype 1a", source:"PCORnet [9]", points:820, explanation:"Maambukizi ya ini ya virusi vya Hepatitis C. Inatibika kwa dawa za kisasa.", bodyPart:[0.5,0.48], badge:"🧪 Na.28" },
+                { title:"Systemic lupus - SLEDAI 8", source:"Mayo Clinic [5]", points:830, explanation:"Ugonjwa wa kinga mwilini unaoshambulia viungo mbalimbali. SLEDAI 8 ni wastani.", bodyPart:[0.5,0.5], badge:"🔥 Na.29" },
+                { title:"Multiple sclerosis - EDSS 3.5", source:"PCORnet [9]", points:840, explanation:"Ugonjwa unaoshambulia mfumo mkuu wa neva. EDSS 3.5 inaonyesha ulemavu wa wastani.", bodyPart:[0.5,0.1], badge:"🧠 Na.30" }
             ],
-            
             traditional: [
-                {
-                    title: "Phlegmatic - Cold/Moist Temperament",
-                    source: "Unani Medicine (☪️)",
-                    points: 825,
-                    explanation: "Hii inatoka kwenye Unani Medicine (Tiba za Kiarabu/Kiajemi). Inamaanisha mwili wako una asili ya 'Baridi na Unyevu.' Hali hii inasababisha mwili kuwa mzito (lethargy), kutoa kamasi nyingi (congestion), na kukosa msisimko wa haraka.",
-                    bodyPart: [0.4, 0.27],
-                    category: "traditional",
-                    badge: "🌊 Na. 5"
-                },
-                {
-                    title: "Prana Disturbance",
-                    source: "Ancient Indian Vedas (🕉️)",
-                    points: 795,
-                    explanation: "Inatoka kwenye Vedas (India). Inamaanisha nishati ya uhai (Prana) inayopita kwenye pumzi haiko sawa. Hii ndiyo inayokusababishia matatizo ya upumuaji au kuhisi 'kubanwa' kifua.",
-                    bodyPart: [0.4, 0.27],
-                    category: "traditional",
-                    badge: "🌬️ Na. 8"
-                },
-                {
-                    title: "Vata Imbalance",
-                    source: "Ayurveda (🕉️)",
-                    points: 850,
-                    explanation: "Katika tiba ya Ayurveda, Vata ndiyo nishati inayodhibiti mwendo wa mwili. Usawa wake unapovurugika, husababisha wasiwasi, ngozi kukauka, na viungo kuuma. Hii inaendana na maumivu yako ya mgongo na usingizi mgumu.",
-                    bodyPart: [0.5, 0.7],
-                    category: "traditional",
-                    badge: "💨 Na. 2"
-                },
-                {
-                    title: "Liver Qi Stagnation",
-                    source: "Chinese Medicine (🇨🇳)",
-                    points: 815,
-                    explanation: "Kwa mujibu wa tiba ya Kichina, ini ndiyo kiungo kinachodhibiti mtiririko wa nishati mwilini. Kukwama kwa nishati ya ini (Qi Stagnation) husababisha kuwashwa, maumivu ya kichwa, na matatizo ya hedhi kwa wanawake.",
-                    bodyPart: [0.5, 0.38],
-                    category: "traditional",
-                    badge: "🌿 Na. 3"
-                },
-                {
-                    title: "Kidney Yin Deficiency",
-                    source: "Chinese Medicine (🇨🇳)",
-                    points: 780,
-                    explanation: "Figo ndio hifadhi ya nishati ya msingi (Yin) mwilini. Upungufu wake husababisha jasho la usiku, kizunguzungu, na maumivu ya kiuno. Hii inaendana na dalili zako za kuhisi joto usiku.",
-                    bodyPart: [0.5, 0.48],
-                    category: "traditional",
-                    badge: "💧 Na. 7"
-                },
-                {
-                    title: "Pitta Imbalance",
-                    source: "Ayurveda (🕉️)",
-                    points: 805,
-                    explanation: "Pitta ndiyo nishati ya moto mwilini. Inapozidi, husababisha uvimbe, kiungulia, hasira kali, na vipele vya ngozi. Hii inaelezea kwa nini unahisi kuungua tumboni mara kwa mara.",
-                    bodyPart: [0.5, 0.38],
-                    category: "traditional",
-                    badge: "🔥 Na. 4"
-                }
+                { title:"Phlegmatic - Cold/Moist Temperament", source:"Unani Medicine (☪️)", points:825, explanation:"Asili ya 'Baridi na Unyevu.' Husababisha mwili kuwa mzito, kamasi nyingi, na kukosa msisimko.", bodyPart:[0.4,0.27], badge:"🌊 Na.1" },
+                { title:"Prana Disturbance", source:"Ancient Indian Vedas (🕉️)", points:795, explanation:"Nishati ya uhai (Prana) inayopita kwenye pumzi haiko sawa. Husababisha matatizo ya upumuaji.", bodyPart:[0.4,0.27], badge:"🌬️ Na.2" },
+                { title:"Vata Imbalance", source:"Ayurveda (🕉️)", points:850, explanation:"Nishati ya mwendo inapovurugika husababisha wasiwasi, ngozi kukauka, na viungo kuuma.", bodyPart:[0.5,0.7], badge:"💨 Na.3" },
+                { title:"Liver Qi Stagnation", source:"Chinese Medicine (🇨🇳)", points:815, explanation:"Kukwama kwa nishati ya ini husababisha kuwashwa, maumivu ya kichwa, na matatizo ya hedhi.", bodyPart:[0.5,0.38], badge:"🌿 Na.4" },
+                { title:"Kidney Yin Deficiency", source:"Chinese Medicine (🇨🇳)", points:780, explanation:"Upungufu wa nishati ya figo husababisha jasho la usiku, kizunguzungu, na maumivu ya kiuno.", bodyPart:[0.5,0.48], badge:"💧 Na.5" },
+                { title:"Pitta Imbalance", source:"Ayurveda (🕉️)", points:805, explanation:"Nishati ya moto inapozidi husababisha uvimbe, kiungulia, hasira kali, na vipele.", bodyPart:[0.5,0.38], badge:"🔥 Na.6" },
+                { title:"Kapha Imbalance", source:"Ayurveda (🕉️)", points:790, explanation:"Nishati ya maji na ardhi inapozidi husababisha uzito, mafua, na usingizi mwingi.", bodyPart:[0.4,0.27], badge:"💧 Na.7" },
+                { title:"Spleen Qi Deficiency", source:"Chinese Medicine (🇨🇳)", points:770, explanation:"Udhaifu wa wengu husababisha uchovu, bloating, na kuhara.", bodyPart:[0.5,0.38], badge:"🫘 Na.8" },
+                { title:"Heart Blood Deficiency", source:"Chinese Medicine (🇨🇳)", points:785, explanation:"Ukosefu wa damu kwenye moyo husababisha mapigo ya moyo, kukosa usingizi, na wasiwasi.", bodyPart:[0.45,0.27], badge:"💓 Na.9" },
+                { title:"Lung Qi Deficiency", source:"Chinese Medicine (🇨🇳)", points:760, explanation:"Udhaifu wa mapafu husababisha kukosa pumzi, sauti dhaifu, na kukohoa.", bodyPart:[0.4,0.27], badge:"🫁 Na.10" },
+                { title:"Sanguine (Hot/Moist)", source:"Unani Medicine (☪️)", points:820, explanation:"Tabia ya moto na unyevu husababisha maumivu ya kichwa, shinikizo la damu, na wekundu wa uso.", bodyPart:[0.5,0.1], badge:"🔥 Na.11" },
+                { title:"Choleric (Hot/Dry)", source:"Unani Medicine (☪️)", points:810, explanation:"Tabia ya moto na ukavu husababisha kiungulia, kuwashwa, na ngozi kukauka.", bodyPart:[0.5,0.38], badge:"☀️ Na.12" },
+                { title:"Melancholic (Cold/Dry)", source:"Unani Medicine (☪️)", points:795, explanation:"Tabia ya baridi na ukavu husababisha huzuni, kuvimbiwa, na ngozi kufa ganzi.", bodyPart:[0.5,0.42], badge:"❄️ Na.13" },
+                { title:"Humoral Imbalance", source:"Unani Medicine (☪️)", points:775, explanation:"Usawa wa maji manne mwilini umevurugika, husababisha uchovu na magonjwa yasiyojulikana.", bodyPart:[0.5,0.5], badge:"💧 Na.14" },
+                { title:"Liver Heat", source:"Chinese Medicine (🇨🇳)", points:805, explanation:"Joto kwenye ini husababisha hasira, macho kuwa mekundu, na ladha chungu mdomoni.", bodyPart:[0.5,0.48], badge:"🔥 Na.15" },
+                { title:"Stomach Cold", source:"Chinese Medicine (🇨🇳)", points:750, explanation:"Baridi tumboni husababisha mmeng'enyo mbaya, bloating, na hamu ya chakula kupungua.", bodyPart:[0.5,0.38], badge:"❄️ Na.16" },
+                { title:"Lung Moisture", source:"Chinese Medicine (🇨🇳)", points:740, explanation:"Unyevu kwenye mapafu husababisha kikohozi chenye makohozi mengi.", bodyPart:[0.4,0.27], badge:"💧 Na.17" },
+                { title:"Heart Fire", source:"Chinese Medicine (🇨🇳)", points:820, explanation:"Moto kwenye moyo husababisha mapigo ya haraka, kukosa usingizi, na vidonda mdomoni.", bodyPart:[0.45,0.27], badge:"🔥 Na.18" },
+                { title:"Kidney Cold", source:"Chinese Medicine (🇨🇳)", points:760, explanation:"Baridi kwenye figo husababisha kojoa mara kwa mara, maumivu ya kiuno, na hofu.", bodyPart:[0.5,0.48], badge:"❄️ Na.19" },
+                { title:"Ama (Toxins) Accumulation", source:"Ayurveda (🕉️)", points:835, explanation:"Mkusanyiko wa sumu mwilini husababisha ulimi kuwa na mabaka, uchovu, na harufu mbaya ya mwili.", bodyPart:[0.5,0.38], badge:"☠️ Na.20" },
+                { title:"Ojas Depletion", source:"Ayurveda (🕉️)", points:815, explanation:"Kupungua kwa nishati ya msingi (Ojas) husababisha kinga dhaifu na uchovu sugu.", bodyPart:[0.5,0.3], badge:"⚡ Na.21" },
+                { title:"Tejas Imbalance", source:"Ayurveda (🕉️)", points:790, explanation:"Nishati ya moto wa ndani (Tejas) inapozidi husababisha hasira na uvimbe.", bodyPart:[0.45,0.27], badge:"🔥 Na.22" },
+                { title:"Prana Vata", source:"Ayurveda (🕉️)", points:780, explanation:"Aina ya Vata inayodhibiti pumzi na akili. Usawa wake husababisha wasiwasi na matatizo ya kupumua.", bodyPart:[0.4,0.27], badge:"🌬️ Na.23" },
+                { title:"Udana Vata", source:"Ayurveda (🕉️)", points:765, explanation:"Vata inayodhibiti sauti na kumbukumbu. Usawa wake husababisha matatizo ya koo na kusahau.", bodyPart:[0.5,0.18], badge:"🗣️ Na.24" },
+                { title:"Vyana Vata", source:"Ayurveda (🕉️)", points:775, explanation:"Vata inayodhibiti mzunguko wa damu na mishipa. Usawa wake husababisha maumivu ya viungo.", bodyPart:[0.5,0.5], badge:"🔄 Na.25" },
+                { title:"Samana Vata", source:"Ayurveda (🕉️)", points:760, explanation:"Vata inayodhibiti mmeng'enyo. Usawa wake husababisha gesi tumboni na kuvimbiwa.", bodyPart:[0.5,0.38], badge:"🍲 Na.26" },
+                { title:"Apana Vata", source:"Ayurveda (🕉️)", points:770, explanation:"Vata inayodhibiti mkojo na hedhi. Usawa wake husababisha matatizo ya mkojo na hedhi.", bodyPart:[0.5,0.6], badge:"🚽 Na.27" },
+                { title:"Pachaka Pitta", source:"Ayurveda (🕉️)", points:785, explanation:"Pitta inayodhibiti mmeng'enyo. Usawa wake husababisha kiungulia na asidi.", bodyPart:[0.5,0.38], badge:"🔥 Na.28" },
+                { title:"Ranjaka Pitta", source:"Ayurveda (🕉️)", points:775, explanation:"Pitta inayodhibiti damu na ini. Usawa wake husababisha matatizo ya damu na ngozi.", bodyPart:[0.5,0.48], badge:"🩸 Na.29" },
+                { title:"Alochaka Pitta", source:"Ayurveda (🕉️)", points:755, explanation:"Pitta inayodhibiti macho. Usawa wake husababisha matatizo ya macho na kuona.", bodyPart:[0.45,0.08], badge:"👁️ Na.30" }
             ],
-            
             spiritual: [
-                {
-                    title: "Envy (Wivu) - Protection Charm",
-                    source: "African Traditional (🌍)",
-                    points: 865,
-                    explanation: "Hii inatoka kwenye imani za Kiafrika. Inaashiria kuwa kuna nishati ya Wivu inayokuelekea kutoka kwa watu wanaokuzunguka, na mfumo unapendekeza unahitaji 'protection charm' (kinga/hizibi). Hii inaweza kuhusishwa na bahati mbaya au magonjwa yasiyojulikana chanzo chake.",
-                    bodyPart: [0.5, 0.1],
-                    category: "spiritual",
-                    badge: "👁️ Na. 7"
-                },
-                {
-                    title: "Cord Cutting - Toxic Bonds",
-                    source: "Mystical Arts (🔮)",
-                    points: 835,
-                    explanation: "Hii ni tiba ya kiroho (Mystical). Inaonyesha una mafungamano ya kihisia na watu ambao ni 'sumu' (toxic) kwako. Unahitaji kukata hiyo 'kamba ya kiroho' ili uwe huru na uache kupoteza nishati.",
-                    bodyPart: [0.5, 0.5],
-                    category: "spiritual",
-                    badge: "🔗 Na. 3"
-                },
-                {
-                    title: "Ancestral spiritual imbalance",
-                    source: "African Traditional (🌍)",
-                    points: 890,
-                    explanation: "Kuna usawa katika uhusiano wako na mizazi yako. Katika imani za Kiafrika, mizazi inaweza kuathiri afya ya walio hai. Inapendekezwa kufanya matambiko ya kuwaombea na kuwaheshimu.",
-                    bodyPart: [0.5, 0.5],
-                    category: "spiritual",
-                    badge: "👴 Na. 1"
-                },
-                {
-                    title: "Evil eye (Choyo) - Protection needed",
-                    source: "African Traditional (🌍)",
-                    points: 820,
-                    explanation: "Jicho baya (Choyo) linamaanisha watu wanakutamani au kukuhusudu kwa kiasi cha kukuletea msiba au magonjwa. Unahitaji hirizi au kinga za kienyeji.",
-                    bodyPart: [0.5, 0.1],
-                    category: "spiritual",
-                    badge: "👁️ Na. 4"
-                },
-                {
-                    title: "Spirit possession - Ceremonial cleansing",
-                    source: "Caribbean Obeah (🏝️)",
-                    points: 845,
-                    explanation: "Kuna dalili za kuwepo kwa roho ngeni inayoweza kuathiri tabia zako au kukuletea usingizi mgumu. Tiba inahitaji kufukuzwa kwa roho (cleansing ceremony).",
-                    bodyPart: [0.5, 0.1],
-                    category: "spiritual",
-                    badge: "👻 Na. 2"
-                },
-                {
-                    title: "Family curse - Generational healing",
-                    source: "African Traditional (🌍)",
-                    points: 875,
-                    explanation: "Kuna laana ya kizazi inayoweza kupitishwa kutoka kwa bibi au babu zako. Hii inaweza kujidhihirisha kama magonjwa sugu au bahati mbaya katika familia. Inahitaji uponyaji wa kizazi kizima.",
-                    bodyPart: [0.5, 0.5],
-                    category: "spiritual",
-                    badge: "⚡ Na. 5"
-                }
+                { title:"Envy (Wivu) - Protection Charm", source:"African Traditional (🌍)", points:865, explanation:"Nishati ya Wivu inayokuelekea kutoka kwa watu wanaokuzunguka. Unahitaji kinga/hizibi.", bodyPart:[0.5,0.1], badge:"👁️ Na.1" },
+                { title:"Cord Cutting - Toxic Bonds", source:"Mystical Arts (🔮)", points:835, explanation:"Una mafungamano ya kihisia na watu ambao ni 'sumu' kwako. Kata kamba ya kiroho.", bodyPart:[0.5,0.5], badge:"🔗 Na.2" },
+                { title:"Ancestral spiritual imbalance", source:"African Traditional (🌍)", points:890, explanation:"Usawa katika uhusiano na mizazi yako. Fanya matambiko ya kuwaombea.", bodyPart:[0.5,0.5], badge:"👴 Na.3" },
+                { title:"Evil eye (Choyo) - Protection needed", source:"African Traditional (🌍)", points:820, explanation:"Jicho baya linamaanisha watu wanakutamani. Unahitaji hirizi au kinga.", bodyPart:[0.5,0.1], badge:"👁️ Na.4" },
+                { title:"Spirit possession - Ceremonial cleansing", source:"Caribbean Obeah (🏝️)", points:845, explanation:"Kuna roho ngeni inayoweza kuathiri tabia zako. Tiba inahitaji kufukuzwa kwa roho.", bodyPart:[0.5,0.1], badge:"👻 Na.5" },
+                { title:"Family curse - Generational healing", source:"African Traditional (🌍)", points:875, explanation:"Laana ya kizazi inayopitishwa kutoka kwa babu zako. Inahitaji uponyaji wa kizazi.", bodyPart:[0.5,0.5], badge:"⚡ Na.6" },
+                { title:"Aura disturbance - Energy field damage", source:"Mystical Arts (🔮)", points:830, explanation:"Nguvu ya mwili wako (aura) imeharibika. Inahitaji kusafishwa na kutengenezwa.", bodyPart:[0.5,0.5], badge:"✨ Na.7" },
+                { title:"Psychic attack - Spiritual intrusion", source:"Mystical Arts (🔮)", points:855, explanation:"Unashambuliwa kiroho na watu wenye nia mbaya. Unahitaji ulinzi wa kiroho.", bodyPart:[0.5,0.1], badge:"⚔️ Na.8" },
+                { title:"Entity attachment - Parasitic energy", source:"Mystical Arts (🔮)", points:840, explanation:"Kuna kitu kimeambatana na nishati yako. Inahitaji kufukuzwa.", bodyPart:[0.5,0.5], badge:"👾 Na.9" },
+                { title:"Karmic debt - Ancestral pattern", source:"Ancient Indian Vedas (🕉️)", points:860, explanation:"Deni la karmic kutoka kwa mizazi linaathiri maisha yako. Fanya sadaka na toba.", bodyPart:[0.5,0.5], badge:"🔄 Na.10" },
+                { title:"Soul retrieval needed - Trauma recovery", source:"Mystical Arts (🔮)", points:815, explanation:"Sehemu ya roho yako imepotea kutokana na majeraha. Inahitaji kurudishwa.", bodyPart:[0.5,0.5], badge:"💔 Na.11" },
+                { title:"Grounding deficiency - Ungrounded", source:"Mystical Arts (🔮)", points:775, explanation:"Hujajikita vizuri katika ulimwengu wa kweli. Unahitaji kutulia na kutafakari.", bodyPart:[0.5,0.5], badge:"🌍 Na.12" },
+                { title:"Third eye blockage - Intuition blocked", source:"Mystical Arts (🔮)", points:790, explanation:"Jicho la tatu limeziba, huwezi kuona mambo ya kiroho. Fungua kwa kutafakari.", bodyPart:[0.5,0.1], badge:"👁️ Na.13" },
+                { title:"Crown chakra imbalance", source:"Ancient Indian Vedas (🕉️)", points:805, explanation:"Chakra ya taji haifanyi kazi vizuri, unajitenga na Mungu. Fanya sala na kutafakari.", bodyPart:[0.5,0.05], badge:"👑 Na.14" },
+                { title:"Sacral chakra blockage", source:"Ancient Indian Vedas (🕉️)", points:785, explanation:"Chakra ya ubunifu na hisia imeziba. Husababisha matatizo ya ngono na hisia.", bodyPart:[0.5,0.6], badge:"🧡 Na.15" },
+                { title:"Solar plexus chakra weakness", source:"Ancient Indian Vedas (🕉️)", points:795, explanation:"Chakra ya nguvu na kujiamini dhaifu. Husababisha kukosa ujasiri na matatizo ya tumbo.", bodyPart:[0.5,0.38], badge:"💛 Na.16" },
+                { title:"Heart chakra closed", source:"Ancient Indian Vedas (🕉️)", points:815, explanation:"Chakra ya upendo imefungwa. Husababisha kutojali na magonjwa ya moyo.", bodyPart:[0.45,0.27], badge:"💚 Na.17" },
+                { title:"Throat chakra blocked", source:"Ancient Indian Vedas (🕉️)", points:775, explanation:"Chakra ya mawasiliano imeziba. Husababisha matatizo ya koo na kushindwa kujieleza.", bodyPart:[0.5,0.18], badge:"💙 Na.18" },
+                { title:"Ancestral neglect - Appeasement needed", source:"African Traditional (🌍)", points:850, explanation:"Umewasahau mizazi yako, wanahitaji kuheshimiwa. Fanya matambiko.", bodyPart:[0.5,0.5], badge:"🕯️ Na.19" },
+                { title:"Protection ritual - Amulet preparation", source:"Caribbean Obeah (🏝️)", points:825, explanation:"Unahitaji kutengeneza hirizi ya kinga dhidi ya maadui.", bodyPart:[0.5,0.5], badge:"🪬 Na.20" },
+                { title:"Cleansing bath - Spiritual purification", source:"African Traditional (🌍)", points:805, explanation:"Unahitaji kuoga kwa maji ya mitishamba ili kujisafisha kiroho.", bodyPart:[0.5,0.5], badge:"🚿 Na.21" },
+                { title:"Divination - Cowrie shell reading", source:"Caribbean Obeah (🏝️)", points:835, explanation:"Unahitaji kufanya ramli kwa makombora ili kujua chanzo cha matatizo.", bodyPart:[0.5,0.1], badge:"🐚 Na.22" },
+                { title:"Offering required - To ancestors", source:"African Traditional (🌍)", points:815, explanation:"Weka sadaka kwa mizazi yako ili wakubariki na kukuondolea msiba.", bodyPart:[0.5,0.5], badge:"🍚 Na.23" },
+                { title:"Spiritual stagnation - Energy block", source:"Mystical Arts (🔮)", points:785, explanation:"Nishati yako ya kiroho imekwama. Unahitaji kuamsha tena kwa sala na nia njema.", bodyPart:[0.5,0.5], badge:"⛔ Na.24" },
+                { title:"Bad medicine - Reversal ceremony", source:"Caribbean Obeah (🏝️)", points:865, explanation:"Umepewa dawa mbaya na adui. Unahitaji sherehe ya kurudisha nyuma.", bodyPart:[0.5,0.5], badge:"💊 Na.25" },
+                { title:"Offended spirits - Appeasement", source:"African Traditional (🌍)", points:840, explanation:"Roho fulani zimekasirika nawe. Fanya matambiko ya kuzituliza.", bodyPart:[0.5,0.5], badge:"👿 Na.26" },
+                { title:"Broken taboo - Purification needed", source:"African Traditional (🌍)", points:820, explanation:"Umekiuka mwiko. Jitakase kwa kufanya taratibu za kienyeji.", bodyPart:[0.5,0.5], badge:"🚫 Na.27" },
+                { title:"Witchcraft - Counter-spell needed", source:"Caribbean Obeah (🏝️)", points:875, explanation:"Umerogwa. Unahitaji kupigania kwa nguvu za kiroho.", bodyPart:[0.5,0.5], badge:"🧙 Na.28" },
+                { title:"Sorcery - Breaking spell ceremony", source:"African Traditional (🌍)", points:855, explanation:"Uchawi umefanywa dhidi yako. Fanya sherehe ya kuvunja uchawi.", bodyPart:[0.5,0.5], badge:"⚡ Na.29" },
+                { title:"Hex - Removal ritual", source:"Caribbean Obeah (🏝️)", points:835, explanation:"Laana imewekwa kwako. Inahitaji kutolewa kwa njia za kiroho.", bodyPart:[0.5,0.5], badge:"💢 Na.30" }
             ]
         };
 
@@ -903,28 +455,55 @@
         // VARIABLES
         // ============================================
         let scanInterval;
-        let scanTime = 60; // 1 minute
-        let currentModernIndex = 0;
-        let currentTraditionalIndex = 0;
-        let currentSpiritualIndex = 0;
-        let modernResults = [];
-        let traditionalResults = [];
-        let spiritualResults = [];
-        let allResults = [];
+        let scanTime = 60; // dakika 1
+        let resultsByCategory = { modern: [], traditional: [], spiritual: [] };
+        let allDots = [];
 
         // ============================================
-        // 1-MINUTE SCAN ANIMATION
+        // SEEDED RANDOM (kutumia jina la mgonjwa)
+        // ============================================
+        function seededRandom(seed) {
+            let h = 0;
+            for (let i = 0; i < seed.length; i++) {
+                h = ((h << 5) - h + seed.charCodeAt(i)) | 0;
+            }
+            return function() {
+                h = (h * 9301 + 49297) % 233280;
+                return h / 233280;
+            };
+        }
+
+        // ============================================
+        // CHAGUA MATOKEO KWA NASA (bila kurudia)
+        // ============================================
+        function selectRandomResults(category, patientName, count = 8) {
+            const list = allResults[category];
+            const rand = seededRandom(patientName + category);
+            // Create a copy and shuffle
+            const shuffled = [...list];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(rand() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled.slice(0, count).map((item, index) => ({
+                ...item,
+                badge: item.badge.replace(/\d+/, (index + 1).toString()) // renumber badges
+            }));
+        }
+
+        // ============================================
+        // ANZA SCAN
         // ============================================
         function startScan() {
-            scanTime = 60;
-            currentModernIndex = 0;
-            currentTraditionalIndex = 0;
-            currentSpiritualIndex = 0;
-            modernResults = [];
-            traditionalResults = [];
-            spiritualResults = [];
-            allResults = [];
+            const patientName = document.getElementById('patientName').value || 'Default';
+            // Select fresh results for this patient
+            resultsByCategory = {
+                modern: selectRandomResults('modern', patientName, 8),
+                traditional: selectRandomResults('traditional', patientName, 8),
+                spiritual: selectRandomResults('spiritual', patientName, 8)
+            };
             
+            scanTime = 60;
             document.getElementById('scannerOverlay').style.display = 'flex';
             document.getElementById('scanProgress').style.width = '0%';
             document.getElementById('timeRemaining').textContent = '01:00';
@@ -934,19 +513,19 @@
             document.getElementById('traditionalResults').innerHTML = '';
             document.getElementById('spiritualResults').innerHTML = '';
             document.getElementById('dotOverlay').innerHTML = '';
-            
-            scanInterval = setInterval(updateScan, 1000);
+            allDots = [];
             
             // Update total score
             updateTotalScore();
+            
+            scanInterval = setInterval(updateScan, 1000);
         }
-        
+
         function updateScan() {
             scanTime--;
             const minutes = Math.floor(scanTime / 60);
             const seconds = scanTime % 60;
-            document.getElementById('timeRemaining').textContent = 
-                `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+            document.getElementById('timeRemaining').textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
             document.getElementById('scanProgress').style.width = ((60 - scanTime)/60*100) + '%';
             
             const texts = [
@@ -962,25 +541,21 @@
             ];
             document.getElementById('scanningText').textContent = texts[Math.floor((60-scanTime)/7)] || "Karibu kumaliza...";
             
-            // Reveal results every 6 seconds (10 results total)
-            const timeElapsed = 60 - scanTime;
-            
-            // Modern results (every 6 seconds)
-            if (timeElapsed % 6 === 0 && timeElapsed > 0 && currentModernIndex < resultsData.modern.length) {
-                addResult('modern', resultsData.modern[currentModernIndex]);
-                currentModernIndex++;
-            }
-            
-            // Traditional results (every 6 seconds, offset by 2 seconds)
-            if (timeElapsed % 6 === 2 && currentTraditionalIndex < resultsData.traditional.length) {
-                addResult('traditional', resultsData.traditional[currentTraditionalIndex]);
-                currentTraditionalIndex++;
-            }
-            
-            // Spiritual results (every 6 seconds, offset by 4 seconds)
-            if (timeElapsed % 6 === 4 && currentSpiritualIndex < resultsData.spiritual.length) {
-                addResult('spiritual', resultsData.spiritual[currentSpiritualIndex]);
-                currentSpiritualIndex++;
+            // Reveal results gradually every 6 seconds
+            const elapsed = 60 - scanTime;
+            if (elapsed % 6 === 0 && elapsed > 0) {
+                const modernIndex = Math.floor(elapsed / 6) - 1;
+                if (modernIndex < resultsByCategory.modern.length) {
+                    displayResult('modern', resultsByCategory.modern[modernIndex]);
+                }
+                const traditionalIndex = Math.floor(elapsed / 6) - 1;
+                if (traditionalIndex < resultsByCategory.traditional.length) {
+                    displayResult('traditional', resultsByCategory.traditional[traditionalIndex]);
+                }
+                const spiritualIndex = Math.floor(elapsed / 6) - 1;
+                if (spiritualIndex < resultsByCategory.spiritual.length) {
+                    displayResult('spiritual', resultsByCategory.spiritual[spiritualIndex]);
+                }
             }
             
             if (scanTime <= 0) {
@@ -988,15 +563,8 @@
                 document.getElementById('scannerOverlay').style.display = 'none';
             }
         }
-        
-        function addResult(category, result) {
-            // Store result
-            if (category === 'modern') modernResults.push(result);
-            if (category === 'traditional') traditionalResults.push(result);
-            if (category === 'spiritual') spiritualResults.push(result);
-            allResults.push(result);
-            
-            // Add to display
+
+        function displayResult(category, result) {
             const container = document.getElementById(category + 'Results');
             const card = document.createElement('div');
             card.className = `result-card ${category}`;
@@ -1009,34 +577,30 @@
                 <div class="result-explanation">${result.explanation}</div>
                 <div class="result-footer">
                     <span class="result-points">⭐ Uhakika: ${Math.round(result.points/9)}%</span>
-                    <span class="result-action" onclick='showDetails(${JSON.stringify(result)})'>🔍 Maelezo zaidi</span>
+                    <span class="result-action" onclick='showDetails(${JSON.stringify(result).replace(/'/g, "\\'")})'>🔍 Maelezo zaidi</span>
                 </div>
             `;
             container.appendChild(card);
             
-            // Add dot to X-ray
-            addDot(result.bodyPart[0], result.bodyPart[1], 
-                category === 'modern' ? '#3b82f6' : category === 'traditional' ? '#f59e0b' : '#8b5cf6');
-        }
-        
-        function addDot(x, y, color) {
+            // Add dot
+            const dotColor = category === 'modern' ? '#3b82f6' : category === 'traditional' ? '#f59e0b' : '#8b5cf6';
             const dot = document.createElement('div');
             dot.className = 'dot';
-            dot.style.left = (x*100)+'%';
-            dot.style.top = (y*100)+'%';
-            dot.style.width = '18px';
-            dot.style.height = '18px';
-            dot.style.background = color;
-            dot.style.boxShadow = `0 0 20px ${color}`;
+            dot.style.left = (result.bodyPart[0]*100)+'%';
+            dot.style.top = (result.bodyPart[1]*100)+'%';
+            dot.style.background = dotColor;
+            dot.style.boxShadow = `0 0 20px ${dotColor}`;
             document.getElementById('dotOverlay').appendChild(dot);
         }
-        
+
         function updateTotalScore() {
             let total = 0;
-            allResults.forEach(r => total += r.points);
+            for (let cat of ['modern','traditional','spiritual']) {
+                resultsByCategory[cat].forEach(r => total += r.points);
+            }
             document.getElementById('totalScoreDisplay').innerHTML = total + '/10,000+';
         }
-        
+
         function showDetails(result) {
             document.getElementById('modalTitle').innerHTML = result.title;
             document.getElementById('modalData').innerHTML = `
@@ -1049,55 +613,57 @@
             `;
             document.getElementById('infoModal').style.display = 'flex';
         }
-        
-        function getTreatment(result) {
-            if (result.title.includes("Hemochromatosis")) return "Kula vyakula visivyo na chuma nyingi (epuka nyanya, machungwa)";
-            if (result.title.includes("Kyphosis")) return "Mazoezi ya kunyoosha mgongo, tembea sawa";
-            if (result.title.includes("Thrombotic")) return "Dawa za kuzuia damu kuganda (aspirin)";
-            if (result.title.includes("Rheumatoid")) return "Dawa za kupunguza uvimbe, pumzisha viungo";
-            if (result.title.includes("UTI")) return "Kunywa maji mengi, dawa za antibiotiki";
-            if (result.title.includes("Plantar")) return "Kutibiwa na dawa za kupunguza maumivu, viatu vizuri";
-            if (result.title.includes("Envy") || result.title.includes("Wivu")) return "Kutafuta hirizi au kufanya matambiko ya kinga";
-            if (result.title.includes("Cord")) return "Kutengana na watu wanaokuletea msongo";
-            return "Kufuatiliwa na daktari";
+
+        function getTreatment(r) {
+            if (r.title.includes("Hemochromatosis")) return "Kula vyakula visivyo na chuma nyingi (epuka nyanya, machungwa)";
+            if (r.title.includes("Kyphosis")) return "Mazoezi ya kunyoosha mgongo, tembea sawa";
+            if (r.title.includes("Thrombotic")) return "Dawa za kuzuia damu kuganda (aspirin)";
+            if (r.title.includes("Rheumatoid")) return "Dawa za kupunguza uvimbe, pumzisha viungo";
+            if (r.title.includes("UTI")) return "Kunywa maji mengi, dawa za antibiotiki";
+            if (r.title.includes("Plantar")) return "Kutibiwa na dawa za kupunguza maumivu, viatu vizuri";
+            if (r.title.includes("Envy") || r.title.includes("Wivu")) return "Kutafuta hirizi au kufanya matambiko ya kinga";
+            if (r.title.includes("Cord")) return "Kutengana na watu wanaokuletea msongo";
+            if (r.title.includes("Ancestral")) return "Fanya matambiko ya kuwaombea mizazi";
+            if (r.title.includes("Evil eye")) return "Vaa hirizi au fanya kitasa cha kinga";
+            return "Fuatiliwa na daktari au mganga wa kienyeji";
         }
-        
-        function getMedicine(result) {
-            if (result.title.includes("Hemochromatosis")) return "Epuka vidonge vya chuma";
-            if (result.title.includes("Kyphosis")) return "Paracetamol kwa maumivu";
-            if (result.title.includes("Thrombotic")) return "Aspirin 75mg kwa siku";
-            if (result.title.includes("Rheumatoid")) return "Ibuprofen, Methotrexate";
-            if (result.title.includes("UTI")) return "Ciprofloxacin 500mg kwa siku 5";
-            if (result.title.includes("Plantar")) return "Naproxen, pedi za viatu";
-            if (result.title.includes("Envy")) return "Hirizi za kinga, kufukiza ubani";
+
+        function getMedicine(r) {
+            if (r.title.includes("Hemochromatosis")) return "Epuka vidonge vya chuma";
+            if (r.title.includes("Kyphosis")) return "Paracetamol kwa maumivu";
+            if (r.title.includes("Thrombotic")) return "Aspirin 75mg kwa siku";
+            if (r.title.includes("Rheumatoid")) return "Ibuprofen, Methotrexate";
+            if (r.title.includes("UTI")) return "Ciprofloxacin 500mg kwa siku 5";
+            if (r.title.includes("Plantar")) return "Naproxen, pedi za viatu";
+            if (r.title.includes("Envy")) return "Hirizi za kinga, kufukiza ubani";
+            if (r.title.includes("Ancestral")) return "Kupunga ubani na kuweka sadaka";
             return "Dawa za asili kushauriana na mganga";
         }
-        
-        function closeModal() {
-            document.getElementById('infoModal').style.display = 'none';
-        }
-        
-        function switchCategory(category) {
+
+        function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
+        function switchCategory(cat) {
             document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('category-' + category).classList.add('active');
+            document.getElementById('category-'+cat).classList.add('active');
             event.target.classList.add('active');
         }
-        
         function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
+            document.getElementById('tab-'+tab).classList.add('active');
             event.target.classList.add('active');
         }
-        
-        function printReport() {
-            window.print();
-        }
-        
-        // Initialize
+        function printReport() { window.print(); }
+
         window.addEventListener('load', () => {
             document.getElementById('scannerOverlay').style.display = 'none';
+            // Pre-select results for default patient
+            const defaultName = document.getElementById('patientName').value;
+            resultsByCategory = {
+                modern: selectRandomResults('modern', defaultName, 8),
+                traditional: selectRandomResults('traditional', defaultName, 8),
+                spiritual: selectRandomResults('spiritual', defaultName, 8)
+            };
             updateTotalScore();
         });
     </script>
