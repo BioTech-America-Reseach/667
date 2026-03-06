@@ -3,410 +3,425 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏥 MEDISCAN TIBU • MATOKEO YA KIPEKEE</title>
+    <title>🏥 MEDISCAN TIBU • MATOKEO</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #0a0f1e 0%, #1a1f35 100%);
-            min-height: 100vh;
+            background: #0a0f1e;
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
         }
         .container {
-            max-width: 1600px;
+            max-width: 1400px;
             width: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
+            background: #0f172a;
             border: 2px solid #3b82f6;
-            border-radius: 40px;
-            padding: 25px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            position: relative;
+            border-radius: 30px;
+            padding: 20px;
         }
         .scanner-overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            border-radius: 40px;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        .scanner-content {
-            text-align: center;
+            flex-direction: column;
             color: #3b82f6;
-            max-width: 600px;
-            padding: 30px;
         }
         .scanner-title {
-            font-size: 2.2rem;
-            font-weight: 800;
+            font-size: 2rem;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: glow 2s infinite;
-        }
-        @keyframes glow {
-            0%,100% { text-shadow:0 0 20px #3b82f6; }
-            50% { text-shadow:0 0 40px #3b82f6; }
         }
         .progress-container {
-            width:100%; height:20px; background:#1e293b; border-radius:10px; margin:20px 0; overflow:hidden; border:2px solid #3b82f6;
+            width: 80%;
+            max-width: 500px;
+            height: 30px;
+            background: #1e293b;
+            border-radius: 15px;
+            border: 2px solid #3b82f6;
+            margin: 20px 0;
+            overflow: hidden;
         }
         .progress-bar {
-            height:100%; width:0%; background:linear-gradient(90deg,#3b82f6,#8b5cf6); transition:width 0.3s; position:relative; overflow:hidden;
-        }
-        .progress-bar::after {
-            content:''; position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent); animation:shimmer 2s infinite;
-        }
-        @keyframes shimmer {
-            0% { transform:translateX(-100%); }
-            100% { transform:translateX(100%); }
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s;
         }
         .time-remaining {
-            font-size:3rem; font-weight:800; margin:15px 0; font-family:'Courier New', monospace;
-        }
-        .scanning-text {
-            font-size:1.1rem; color:#94a3b8; margin:10px 0; min-height:50px;
+            font-size: 3rem;
+            font-family: monospace;
+            margin: 20px 0;
         }
         .scanner-header {
-            display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:15px; border-bottom:2px solid #3b82f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3b82f6;
+            color: white;
         }
         .title {
-            font-size:1.8rem; font-weight:800; background:linear-gradient(135deg,#60a5fa,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3b82f6;
         }
         .status {
-            display:flex; align-items:center; gap:12px; background:#1e293b; padding:10px 20px; border-radius:40px; border:1px solid #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .led {
-            width:10px; height:10px; border-radius:50%; background:#3b82f6; box-shadow:0 0 20px #3b82f6; animation:pulse 1.5s infinite;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3b82f6;
+            animation: pulse 1s infinite;
         }
         @keyframes pulse {
-            0%,100% { opacity:1; } 50% { opacity:0.3; }
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
         .main-grid {
-            display:grid; grid-template-columns:1.5fr 1fr; gap:20px; margin-bottom:20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
         }
         .input-section {
-            background:#0f172a; border:2px solid #334155; border-radius:30px; padding:20px;
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #334155;
         }
         .section-title {
-            color:#94a3b8; font-size:1rem; text-transform:uppercase; letter-spacing:2px; margin-bottom:15px; display:flex; align-items:center; gap:8px;
+            color: #3b82f6;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
         }
-        .input-tabs {
-            display:flex; gap:8px; margin-bottom:15px; flex-wrap:wrap;
-        }
-        .tab-btn {
-            background:#1e293b; border:2px solid #334155; border-radius:40px; padding:8px 16px; color:#94a3b8; cursor:pointer; transition:0.3s; font-size:0.8rem;
-        }
-        .tab-btn.active {
-            background:#3b82f6; border-color:#3b82f6; color:white;
-        }
-        .tab-content { display:none; }
-        .tab-content.active { display:block; }
-        .input-grid {
-            display:grid; grid-template-columns:repeat(2,1fr); gap:15px;
-        }
-        .input-full { grid-column:span 2; }
         .input-group {
-            display:flex; flex-direction:column; gap:6px;
+            margin-bottom: 15px;
         }
         .input-group label {
-            color:#cbd5e1; font-size:0.8rem; font-weight:500;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 5px;
         }
         .input-group input, .input-group select, .input-group textarea {
-            background:#1e293b; border:2px solid #334155; border-radius:16px; padding:12px 16px; color:white; font-size:0.9rem; transition:0.3s;
+            width: 100%;
+            padding: 10px;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            color: white;
         }
-        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
-            border-color:#3b82f6; outline:none; box-shadow:0 0 0 3px rgba(59,130,246,0.2);
-        }
-        .vital-signs {
-            display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:15px;
-        }
-        .vital-card {
-            background:#1e293b; border-radius:16px; padding:12px; text-align:center; border:2px solid #334155;
-        }
-        .vital-label {
-            color:#94a3b8; font-size:0.7rem; margin-bottom:4px;
-        }
-        .vital-value {
-            color:white; font-size:1.3rem; font-weight:700;
-        }
-        .results-section {
-            background:#0f172a; border:2px solid #334155; border-radius:30px; padding:20px; margin-bottom:20px;
-        }
-        .category-tabs {
-            display:flex; gap:10px; margin-bottom:20px; border-bottom:2px solid #334155; padding-bottom:10px;
-        }
-        .category-btn {
-            padding:10px 20px; border-radius:30px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:0.3s; background:#1e293b; color:#94a3b8; border:2px solid #334155;
-        }
-        .category-btn.active {
-            background:#3b82f6; color:white; border-color:#3b82f6;
-        }
-        .category-btn.modern { border-left:4px solid #3b82f6; }
-        .category-btn.traditional { border-left:4px solid #f59e0b; }
-        .category-btn.spiritual { border-left:4px solid #8b5cf6; }
-        .category-content { display:none; }
-        .category-content.active { display:block; }
-        .result-card {
-            background:#1e293b; border-radius:20px; padding:18px; margin-bottom:15px; border-left:6px solid; animation:slideIn 0.5s ease-out;
-        }
-        .result-card.modern { border-left-color:#3b82f6; }
-        .result-card.traditional { border-left-color:#f59e0b; }
-        .result-card.spiritual { border-left-color:#8b5cf6; }
-        .result-header {
-            display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
-        }
-        .result-title {
-            font-size:1.2rem; font-weight:700; color:white;
-        }
-        .result-badge {
-            padding:4px 12px; border-radius:30px; font-size:0.8rem; font-weight:600;
-        }
-        .badge-modern { background:#3b82f6; color:white; }
-        .badge-traditional { background:#f59e0b; color:white; }
-        .badge-spiritual { background:#8b5cf6; color:white; }
-        .result-source {
-            color:#94a3b8; font-size:0.85rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;
-        }
-        .result-explanation {
-            color:#cbd5e1; font-size:0.95rem; line-height:1.6; margin-bottom:12px; padding:10px; background:#0f172a; border-radius:12px;
-        }
-        .result-footer {
-            display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:10px; border-top:1px solid #334155;
-        }
-        .result-points {
-            color:#3b82f6; font-weight:600;
-        }
-        .result-action {
-            color:#10b981; cursor:pointer; font-size:0.9rem;
-        }
-        .result-action:hover { text-decoration:underline; }
         .xray-section {
-            background:#0f172a; border:2px solid #334155; border-radius:30px; padding:20px; margin-bottom:20px;
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #334155;
         }
         .xray-container {
-            display:flex; gap:25px; align-items:center;
+            display: flex;
+            gap: 20px;
         }
-        .xray-image-container {
-            flex:1; background:#000; border-radius:25px; padding:15px; position:relative; text-align:center; min-height:350px; display:flex; justify-content:center; align-items:center;
-        }
-        /* Base64 X-ray image - itaonekana offline */
         .xray-image {
-            max-width:100%; max-height:320px; border-radius:15px; opacity:0.95; box-shadow:0 0 30px rgba(0,255,157,0.5); filter:invert(1) contrast(1.3);
-            content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAD6CAYAAAA1iHkUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAHQlJREFUeNrsnU1sHMd9x3+ze58UkqIofkh8gS1ZkSxRimwjdmLbdQMnQBIDQZAgQBvk0gZtDgH6nXJsTwF6yR+6Bz0GCHJJmmuLIn0p4qJNmthBZNuSZcmSRYofIkVSJCmK+97u9FmK5JI7zM7szrw8H0CwF8nZ2Z3Z/7z/z//9P7M7BAAAAAAAAAIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4CqP7NixYw8hhRBC4jX3Hk0mkwMhl0qlw2vXrn2UYRiGp9+/f5+FQqFHRVF8lJf5kSNHjoRcOgggAIDQASGEpLe3t2QYxpb29vbna7XaA7PZfIdtNpt9FEWxp2ma4rquy13XdV3XdZzLly+XCSG9vb29lUpl2WazfUvTtEWhULgXDAbvx2Kxe+Fw+F4wGByNRCKj0Wh0TNM0qVar1bZt21ap1+vVarXaqFarT7Varaper9eKxeJcsVhcLBaLi6VSiQQCgR4h4OFIJHI/Fos9iMfjj+Lx+MPu7u6Ha9eufQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAfAgwAyFfQ3qD0EUAAAAAASUVORK5CYII=");
+            width: 300px;
+            height: 400px;
+            background: #000;
+            border-radius: 10px;
+            position: relative;
+            border: 2px solid #3b82f6;
         }
         .dot-overlay {
-            position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
         .dot {
-            position:absolute; border-radius:50%; background:rgba(255,0,0,0.9); box-shadow:0 0 20px rgba(255,0,0,0.9); transform:translate(-50%,-50%); animation:pulse 1s infinite; pointer-events:none;
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 1s infinite;
+        }
+        .results-section {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #334155;
+        }
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .category-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: #0f172a;
+            border: 2px solid #334155;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+        .category-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .category-content {
+            display: none;
+        }
+        .category-content.active {
+            display: block;
+        }
+        .result-card {
+            background: #0f172a;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid;
+        }
+        .result-card.modern { border-left-color: #3b82f6; }
+        .result-card.traditional { border-left-color: #f59e0b; }
+        .result-card.spiritual { border-left-color: #8b5cf6; }
+        .result-title {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .result-source {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .result-explanation {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
         }
         .doctor-section {
-            background:#0f172a; border:2px solid #334155; border-radius:30px; padding:20px;
-        }
-        .doctor-input {
-            width:100%; min-height:80px; background:#1e293b; border:2px solid #334155; border-radius:16px; padding:12px; color:white; font-size:0.9rem; margin-bottom:12px;
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #334155;
         }
         .button-group {
-            display:flex; gap:12px; margin-top:20px; justify-content:flex-end;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
         }
         .btn {
-            padding:14px 28px; border-radius:40px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:0.3s; border:none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
         }
         .btn-primary {
-            background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:white;
-        }
-        .btn-primary:hover {
-            transform:translateY(-2px); box-shadow:0 10px 30px rgba(59,130,246,0.4);
+            background: #3b82f6;
+            color: white;
         }
         .btn-outline {
-            background:transparent; border:2px solid #3b82f6; color:white;
-        }
-        @media print {
-            .scanner-header, .input-section, .button-group, .scanner-overlay { display:none !important; }
-            .xray-section { page-break-inside:avoid; }
-        }
-        .clinic-footer {
-            text-align:center; margin-top:20px; color:#64748b; font-size:0.8rem; border-top:2px solid #334155; padding-top:15px;
+            background: transparent;
+            border: 2px solid #3b82f6;
+            color: #3b82f6;
         }
         .modal {
-            display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
         }
         .modal-content {
-            background:#0f172a; border:2px solid #3b82f6; border-radius:30px; padding:30px; max-width:500px; width:90%; color:white; position:relative;
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            color: white;
+            border: 2px solid #3b82f6;
         }
         .modal-close {
-            position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:#94a3b8;
-        }
-        .modal-close:hover { color:white; }
-        .modal-title { font-size:1.3rem; margin-bottom:15px; color:#3b82f6; }
-        .modal-data { max-height:400px; overflow-y:auto; }
-        .data-item { padding:8px; margin-bottom:6px; background:#1e293b; border-radius:6px; font-size:0.85rem; }
-        @keyframes slideIn {
-            from { opacity:0; transform:translateX(-20px); }
-            to { opacity:1; transform:translateX(0); }
+            float: right;
+            font-size: 2rem;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- SCANNER OVERLAY -->
         <div class="scanner-overlay" id="scannerOverlay" style="display: none;">
-            <div class="scanner-content">
-                <div class="scanner-title">🔬 CLINICAL DIAGNOSTIC SCAN</div>
-                <div class="progress-container"><div class="progress-bar" id="scanProgress"></div></div>
-                <div class="time-remaining" id="timeRemaining">01:00</div>
-                <div class="scanning-text" id="scanningText">Initializing 20+ validated medical modules...</div>
+            <div class="scanner-title">🔬 CLINICAL DIAGNOSTIC SCAN</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="scanProgress"></div>
+            </div>
+            <div class="time-remaining" id="timeRemaining">01:00</div>
+            <div class="scanning-text" id="scanningText">Inaanza...</div>
+        </div>
+
+        <!-- HEADER -->
+        <div class="scanner-header">
+            <div class="title">🏥 MEDISCAN TIBU</div>
+            <div class="status">
+                <div class="led"></div>
+                <span>DR WILLIMA</span>
             </div>
         </div>
-        <div class="scanner-header">
-            <div class="title">🏥 MEDISCAN TIBU • MATOKEO YA KIPEKEE</div>
-            <div class="status"><div class="led"></div><span>DR WILLIMA CLINICAL RESEARCH</span></div>
-        </div>
+
+        <!-- INPUT SECTION -->
         <div class="main-grid">
             <div class="input-section">
-                <div class="section-title"><span>📝</span> TAARIFA ZA MGONJWA</div>
-                <div class="input-tabs">
-                    <div class="tab-btn active" onclick="switchTab('personal')">👤 BINAFSI</div>
-                    <div class="tab-btn" onclick="switchTab('vitals')">❤️ AFYA</div>
-                    <div class="tab-btn" onclick="switchTab('symptoms')">🤒 DALILI</div>
+                <div class="section-title">📝 TAARIFA ZA MGONJWA</div>
+                <div class="input-group">
+                    <label>JINA KAMILI</label>
+                    <input type="text" id="patientName" value="Juma Baraka">
                 </div>
-                <div id="tab-personal" class="tab-content active">
-                    <div class="input-grid">
-                        <div class="input-group input-full"><label>JINA KAMILI</label><input type="text" id="patientName" value="Juma Baraka"></div>
-                        <div class="input-group"><label>JINSIA</label><select id="gender"><option value="male">Me</option><option value="female">Ke</option></select></div>
-                        <div class="input-group"><label>UMRI</label><input type="number" id="age" value="42"></div>
-                        <div class="input-group"><label>TAREHE YA KUZALIWA</label><input type="date" id="birthDate" value="1983-06-15"></div>
-                        <div class="input-group"><label>MAHALI</label><input type="text" id="birthPlace" value="Dar es Salaam"></div>
-                    </div>
+                <div class="input-group">
+                    <label>JINSIA</label>
+                    <select id="gender">
+                        <option value="male">Me</option>
+                        <option value="female">Ke</option>
+                    </select>
                 </div>
-                <div id="tab-vitals" class="tab-content">
-                    <div class="vital-signs">
-                        <div class="vital-card"><div class="vital-label">UZITO (kg)</div><input type="number" id="weight" value="78"></div>
-                        <div class="vital-card"><div class="vital-label">UREFU (cm)</div><input type="number" id="height" value="172"></div>
-                        <div class="vital-card"><div class="vital-label">JOTO</div><input type="number" id="temperature" value="37.3" step="0.1"></div>
-                        <div class="vital-card"><div class="vital-label">O2 %</div><input type="number" id="oxygen" value="97"></div>
-                    </div>
-                    <div class="vital-signs">
-                        <div class="vital-card"><div class="vital-label">BP JUU</div><input type="number" id="bpSystolic" value="128"></div>
-                        <div class="vital-card"><div class="vital-label">BP CHINI</div><input type="number" id="bpDiastolic" value="82"></div>
-                        <div class="vital-card"><div class="vital-label">MAPIGO</div><input type="number" id="heartRate" value="76"></div>
-                        <div class="vital-card"><div class="vital-label">SUKARI</div><input type="number" id="bloodSugar" value="98"></div>
-                    </div>
+                <div class="input-group">
+                    <label>UMRI</label>
+                    <input type="number" id="age" value="42">
                 </div>
-                <div id="tab-symptoms" class="tab-content">
-                    <div class="input-group input-full"><label>DALILI ZA ZIADA</label><textarea id="additionalSymptoms" rows="3">Nina homa kidogo, kichwa kinauma, na ninahisi uchovu mwingi.</textarea></div>
+                <div class="input-group">
+                    <label>TAREHE YA KUZALIWA</label>
+                    <input type="date" id="birthDate" value="1983-06-15">
                 </div>
             </div>
             <div class="input-section">
-                <div class="section-title"><span>📊</span> MUHTASARI WA SCAN</div>
-                <div style="color:white; font-size:2rem; text-align:center; margin:20px 0;" id="totalScoreDisplay">0/10,000+</div>
-                <div style="color:#94a3b8; text-align:center;">pointi za uchambuzi</div>
-            </div>
-        </div>
-        <div class="xray-section">
-            <div class="section-title"><span>🩻</span> PICHA YA X-RAY • MAENEO YALIYOATHIRIKA</div>
-            <div class="xray-container">
-                <div class="xray-image-container">
-                    <div class="xray-image"></div>
-                    <div class="dot-overlay" id="dotOverlay"></div>
+                <div class="section-title">❤️ VIASHIRIA</div>
+                <div class="input-group">
+                    <label>UZITO (kg)</label>
+                    <input type="number" id="weight" value="78">
                 </div>
-                <div style="flex:1; color:#94a3b8; text-align:center;"><div class="led" style="margin:0 auto 10px;"></div><p>Matokeo yanaonekana hapa chini</p></div>
+                <div class="input-group">
+                    <label>UREFU (cm)</label>
+                    <input type="number" id="height" value="172">
+                </div>
+                <div class="input-group">
+                    <label>BP (systolic)</label>
+                    <input type="number" id="bpSystolic" value="128">
+                </div>
+                <div class="input-group">
+                    <label>BP (diastolic)</label>
+                    <input type="number" id="bpDiastolic" value="82">
+                </div>
             </div>
         </div>
+
+        <!-- X-RAY SIMPLE -->
+        <div class="xray-section">
+            <div class="section-title">🩻 X-RAY • MAENEO YALIYOATHIRIKA</div>
+            <div class="xray-container">
+                <div class="xray-image" style="background: #0f172a; display: flex; justify-content: center; align-items: center;">
+                    <div style="color: #3b82f6; font-size: 3rem;">🩻</div>
+                    <div class="dot-overlay" id="dotOverlay" style="position: absolute; width: 100%; height: 100%;"></div>
+                </div>
+                <div style="flex: 1; color: #94a3b8; padding: 20px;">
+                    <p>Matokeo yataonekana hapa chini</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS -->
         <div class="results-section">
-            <div class="section-title"><span>🔬</span> MATOKEO YA UCHAMBUZI • AINA 3</div>
+            <div class="section-title">🔬 MATOKEO</div>
             <div class="category-tabs">
-                <div class="category-btn modern active" onclick="switchCategory('modern')">🧬 Sayansi na Tiba ya Kisasa</div>
-                <div class="category-btn traditional" onclick="switchCategory('traditional')">🌿 Tiba za Asili na Kale</div>
-                <div class="category-btn spiritual" onclick="switchCategory('spiritual')">🔮 Dunia ya Kiroho na Imani</div>
+                <div class="category-btn modern active" onclick="switchCategory('modern')">🧬 Kisasa</div>
+                <div class="category-btn traditional" onclick="switchCategory('traditional')">🌿 Asili</div>
+                <div class="category-btn spiritual" onclick="switchCategory('spiritual')">🔮 Kiroho</div>
             </div>
-            <div id="category-modern" class="category-content active"><div id="modernResults"></div></div>
-            <div id="category-traditional" class="category-content"><div id="traditionalResults"></div></div>
-            <div id="category-spiritual" class="category-content"><div id="spiritualResults"></div></div>
+            <div id="category-modern" class="category-content active">
+                <div id="modernResults"></div>
+            </div>
+            <div id="category-traditional" class="category-content">
+                <div id="traditionalResults"></div>
+            </div>
+            <div id="category-spiritual" class="category-content">
+                <div id="spiritualResults"></div>
+            </div>
         </div>
+
+        <!-- DOCTOR -->
         <div class="doctor-section">
-            <div class="section-title"><span>📋</span> MAELEZO YA DAKTARI</div>
-            <textarea class="doctor-input" id="doctorNotes" placeholder="Andika uchunguzi wako..."></textarea>
+            <div class="section-title">📋 MAELEZO YA DAKTARI</div>
+            <textarea class="doctor-input" id="doctorNotes" rows="3" style="width:100%; background:#0f172a; border:2px solid #334155; border-radius:10px; padding:10px; color:white;"></textarea>
             <div class="button-group">
                 <button class="btn btn-outline" onclick="printReport()">🖨️ CHAPISHA</button>
-                <button class="btn btn-primary" onclick="startScan()">🔬 ANZA SCAN (DAKIKA 1)</button>
+                <button class="btn btn-primary" onclick="startScan()">🔬 ANZA SCAN</button>
             </div>
         </div>
-        <div class="clinic-footer">🌿 DR WILLIMA CLINICAL RESEARCH • DATA ZA KISAYANSI NA KITAMADUNI • 10,000+ POINTI</div>
     </div>
-    <div class="modal" id="infoModal"><div class="modal-content"><span class="modal-close" onclick="closeModal()">&times;</span><div class="modal-title" id="modalTitle"></div><div class="modal-data" id="modalData"></div></div></div>
+
+    <!-- MODAL -->
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-title" id="modalTitle"></div>
+            <div class="modal-data" id="modalData"></div>
+        </div>
+    </div>
 
     <script>
-        // ============================================
-        // DATA KUBWA ZA MATOKEO (30-50 kwa kila kundi)
-        // ============================================
+        // DATA
         const allResults = {
             modern: [
-                { title:"HFE mutation - Hemochromatosis", source:"DNA Analysis (🧬)", points:845, explanation:"Huu ni uchambuzi wa vinasaba (DNA). Inaonyesha una vinasaba vinavyofanya mwili wako kufyonza chuma kwa wingi kupita kiasi. Hii inaweza kudhuru ini na moyo.", bodyPart:[0.5,0.48], badge:"🧬 Na.1" },
-                { title:"Kyphosis - Thoracic 60°", source:"Visible Human Project [6]", points:780, explanation:"Hii ni hali ya uti wa mgongo kupinda (kujitokeza nundu). Pembe ya 60° inaashiria mkao usio sahihi au udhaifu wa mifupa.", bodyPart:[0.5,0.5], badge:"🩻 Na.2" },
-                { title:"Thrombotic complication post-COVID", source:"N3C COVID Cohort [1]", points:890, explanation:"Inaonyesha kuna viashiria vya damu kuganda (blood clots) vilivyosalia tangu ulipopata UVIKO-19.", bodyPart:[0.45,0.27], badge:"🦠 Na.3" },
-                { title:"Rheumatoid Arthritis - DAS28 5.2", source:"PCORnet [9]", points:825, explanation:"Kipimo cha juu cha uvimbe kwenye viungo (joints). Namba 5.2 inaonyesha ugonjwa upo katika hatua kali.", bodyPart:[0.5,0.7], badge:"🦴 Na.4" },
-                { title:"Urinary Tract Infection - E. coli", source:"TriNetX [1]", points:760, explanation:"Maambukizi ya mfumo wa mkojo yanayosababishwa na E. coli. (>100k CFU inaonyesha maambukizi makubwa).", bodyPart:[0.5,0.48], badge:"🦠 Na.5" },
-                { title:"Plantar Fasciitis", source:"OBIA Imaging [10]", points:715, explanation:"Maumivu sugu ya unyayo (heel pain), huonekana kwenye ultrasound kama uvimbe wa tishu za chini ya mguu.", bodyPart:[0.45,0.95], badge:"👣 Na.6" },
-                { title:"Type 2 diabetes mellitus - HbA1c 7.2%", source:"NHANES [8]", points:835, explanation:"Kiwango cha sukari kwenye damu kiko juu. Inahitaji kudhibiti chakula na dawa.", bodyPart:[0.5,0.38], badge:"🩸 Na.7" },
-                { title:"Hypertension - Stage 1", source:"Mayo Clinic [5]", points:795, explanation:"Shinikizo la damu la hatua ya kwanza (BP 128/82). Linahitaji kufuatiliwa na kubadilisha mlo.", bodyPart:[0.45,0.27], badge:"❤️ Na.8" },
-                { title:"Obstructive sleep apnea - AHI 22", source:"Mayo Clinic [5]", points:770, explanation:"Kukosa kupumua vizuri usingizini. AHI 22 inaonyesha hali ya wastani.", bodyPart:[0.5,0.1], badge:"😴 Na.9" },
-                { title:"GERD - LA Grade B esophagitis", source:"PCORnet [9]", points:740, explanation:"Kiwango cha juu cha asidi ya tumbo kupanda kwenye koo. Inaweza kusababisha vidonda kwenye umio.", bodyPart:[0.5,0.38], badge:"🔥 Na.10" },
-                { title:"Coronary artery disease - 70% stenosis LAD", source:"Mayo Clinic [5]", points:880, explanation:"Kuziba kwa mshipa wa moyo (LAD) kwa 70%. Hii inaweza kusababisha mshtuko wa moyo.", bodyPart:[0.45,0.27], badge:"❤️ Na.11" },
-                { title:"COPD - GOLD Stage 2", source:"NHANES [8]", points:810, explanation:"Ugonjwa sugu wa mapafu unaosababisha kukosa pumzi. FEV1 65% ya kawaida.", bodyPart:[0.4,0.27], badge:"🫁 Na.12" },
-                { title:"Chronic kidney disease - Stage 3a", source:"TriNetX [1]", points:800, explanation:"Figo zimepungua kazi (eGFR 55). Inahitaji kufuatilia shinikizo la damu na lishe.", bodyPart:[0.5,0.48], badge:"🧂 Na.13" },
-                { title:"Asthma - GINA Step 3", source:"PCORnet [9]", points:765, explanation:"Pumu isiyodhibitiwa vizuri. Inahitaji dawa za kuvuta na kuepuka vichochezi.", bodyPart:[0.4,0.27], badge:"🌬️ Na.14" },
-                { title:"Atrial fibrillation - CHA2DS2-VASc 3", source:"TriNetX [1]", points:850, explanation:"Mapigo ya moyo yasiyo ya kawaida. Hatari ya kupata kiharusi ni 3.2% kwa mwaka.", bodyPart:[0.45,0.27], badge:"💓 Na.15" }
+                { title: "HFE mutation - Hemochromatosis", source: "DNA Analysis", points: 845, explanation: "Vinasaba vya kufyonza chuma kupita kiasi. Hii inaweza kudhuru ini na moyo.", bodyPart: [0.5, 0.5] },
+                { title: "Kyphosis - Thoracic 60°", source: "X-ray", points: 780, explanation: "Uti wa mgongo umepinda. Pembe ya 60° inaonyesha mkao mbaya au udhaifu wa mifupa.", bodyPart: [0.5, 0.3] },
+                { title: "Thrombotic post-COVID", source: "N3C", points: 890, explanation: "Dalili za damu kuganda zilizosalia baada ya COVID-19.", bodyPart: [0.4, 0.3] },
+                { title: "Rheumatoid Arthritis", source: "PCORnet", points: 825, explanation: "Uvimbe mkali kwenye viungo. DAS28 5.2 inaonyesha hatua kali.", bodyPart: [0.5, 0.7] },
+                { title: "UTI - E. coli", source: "TriNetX", points: 760, explanation: "Maambukizi ya mkojo yanayosababishwa na E. coli. (>100k CFU).", bodyPart: [0.5, 0.4] },
+                { title: "Plantar Fasciitis", source: "OBIA", points: 715, explanation: "Maumivu ya unyayo (heel pain).", bodyPart: [0.5, 0.9] }
             ],
             traditional: [
-                { title:"Phlegmatic - Cold/Moist Temperament", source:"Unani Medicine (☪️)", points:825, explanation:"Asili ya 'Baridi na Unyevu.' Husababisha mwili kuwa mzito, kamasi nyingi, na kukosa msisimko.", bodyPart:[0.4,0.27], badge:"🌊 Na.1" },
-                { title:"Prana Disturbance", source:"Ancient Indian Vedas (🕉️)", points:795, explanation:"Nishati ya uhai (Prana) inayopita kwenye pumzi haiko sawa. Husababisha matatizo ya upumuaji.", bodyPart:[0.4,0.27], badge:"🌬️ Na.2" },
-                { title:"Vata Imbalance", source:"Ayurveda (🕉️)", points:850, explanation:"Nishati ya mwendo inapovurugika husababisha wasiwasi, ngozi kukauka, na viungo kuuma.", bodyPart:[0.5,0.7], badge:"💨 Na.3" },
-                { title:"Liver Qi Stagnation", source:"Chinese Medicine (🇨🇳)", points:815, explanation:"Kukwama kwa nishati ya ini husababisha kuwashwa, maumivu ya kichwa, na matatizo ya hedhi.", bodyPart:[0.5,0.38], badge:"🌿 Na.4" },
-                { title:"Kidney Yin Deficiency", source:"Chinese Medicine (🇨🇳)", points:780, explanation:"Upungufu wa nishati ya figo husababisha jasho la usiku, kizunguzungu, na maumivu ya kiuno.", bodyPart:[0.5,0.48], badge:"💧 Na.5" },
-                { title:"Pitta Imbalance", source:"Ayurveda (🕉️)", points:805, explanation:"Nishati ya moto inapozidi husababisha uvimbe, kiungulia, hasira kali, na vipele.", bodyPart:[0.5,0.38], badge:"🔥 Na.6" },
-                { title:"Kapha Imbalance", source:"Ayurveda (🕉️)", points:790, explanation:"Nishati ya maji na ardhi inapozidi husababisha uzito, mafua, na usingizi mwingi.", bodyPart:[0.4,0.27], badge:"💧 Na.7" },
-                { title:"Spleen Qi Deficiency", source:"Chinese Medicine (🇨🇳)", points:770, explanation:"Udhaifu wa wengu husababisha uchovu, bloating, na kuhara.", bodyPart:[0.5,0.38], badge:"🫘 Na.8" },
-                { title:"Heart Blood Deficiency", source:"Chinese Medicine (🇨🇳)", points:785, explanation:"Ukosefu wa damu kwenye moyo husababisha mapigo ya moyo, kukosa usingizi, na wasiwasi.", bodyPart:[0.45,0.27], badge:"💓 Na.9" },
-                { title:"Lung Qi Deficiency", source:"Chinese Medicine (🇨🇳)", points:760, explanation:"Udhaifu wa mapafu husababisha kukosa pumzi, sauti dhaifu, na kukohoa.", bodyPart:[0.4,0.27], badge:"🫁 Na.10" },
-                { title:"Sanguine (Hot/Moist)", source:"Unani Medicine (☪️)", points:820, explanation:"Tabia ya moto na unyevu husababisha maumivu ya kichwa, shinikizo la damu, na wekundu wa uso.", bodyPart:[0.5,0.1], badge:"🔥 Na.11" }
+                { title: "Phlegmatic Temperament", source: "Unani", points: 825, explanation: "Asili ya 'Baridi na Unyevu'. Husababisha mwili kuwa mzito na kamasi nyingi.", bodyPart: [0.4, 0.3] },
+                { title: "Prana Disturbance", source: "Vedas", points: 795, explanation: "Nishati ya uhai (Prana) haiko sawa. Husababisha matatizo ya kupumua.", bodyPart: [0.4, 0.3] },
+                { title: "Vata Imbalance", source: "Ayurveda", points: 850, explanation: "Nishati ya mwendo imevurugika. Husababisha wasiwasi na viungo kuuma.", bodyPart: [0.5, 0.7] },
+                { title: "Liver Qi Stagnation", source: "Chinese", points: 815, explanation: "Nishati ya ini imekwama. Husababisha kuwashwa na maumivu ya kichwa.", bodyPart: [0.5, 0.4] }
             ],
             spiritual: [
-                { title:"Envy (Wivu) - Protection Charm", source:"African Traditional (🌍)", points:865, explanation:"Nishati ya Wivu inayokuelekea kutoka kwa watu wanaokuzunguka. Unahitaji kinga/hizibi.", bodyPart:[0.5,0.1], badge:"👁️ Na.1" },
-                { title:"Cord Cutting - Toxic Bonds", source:"Mystical Arts (🔮)", points:835, explanation:"Una mafungamano ya kihisia na watu ambao ni 'sumu' kwako. Kata kamba ya kiroho.", bodyPart:[0.5,0.5], badge:"🔗 Na.2" },
-                { title:"Ancestral spiritual imbalance", source:"African Traditional (🌍)", points:890, explanation:"Usawa katika uhusiano na mizazi yako. Fanya matambiko ya kuwaombea.", bodyPart:[0.5,0.5], badge:"👴 Na.3" },
-                { title:"Evil eye (Choyo) - Protection needed", source:"African Traditional (🌍)", points:820, explanation:"Jicho baya linamaanisha watu wanakutamani. Unahitaji hirizi au kinga.", bodyPart:[0.5,0.1], badge:"👁️ Na.4" },
-                { title:"Spirit possession - Ceremonial cleansing", source:"Caribbean Obeah (🏝️)", points:845, explanation:"Kuna roho ngeni inayoweza kuathiri tabia zako. Tiba inahitaji kufukuzwa kwa roho.", bodyPart:[0.5,0.1], badge:"👻 Na.5" },
-                { title:"Family curse - Generational healing", source:"African Traditional (🌍)", points:875, explanation:"Laana ya kizazi inayopitishwa kutoka kwa babu zako. Inahitaji uponyaji wa kizazi.", bodyPart:[0.5,0.5], badge:"⚡ Na.6" },
-                { title:"Aura disturbance - Energy field damage", source:"Mystical Arts (🔮)", points:830, explanation:"Nguvu ya mwili wako (aura) imeharibika. Inahitaji kusafishwa na kutengenezwa.", bodyPart:[0.5,0.5], badge:"✨ Na.7" },
-                { title:"Psychic attack - Spiritual intrusion", source:"Mystical Arts (🔮)", points:855, explanation:"Unashambuliwa kiroho na watu wenye nia mbaya. Unahitaji ulinzi wa kiroho.", bodyPart:[0.5,0.1], badge:"⚔️ Na.8" }
+                { title: "Envy (Wivu)", source: "African", points: 865, explanation: "Nishati ya wivu inakuelekea. Unahitaji kinga.", bodyPart: [0.5, 0.2] },
+                { title: "Cord Cutting", source: "Mystical", points: 835, explanation: "Mafungamano ya kihisia na watu wenye sumu. Kata kamba ya kiroho.", bodyPart: [0.5, 0.5] },
+                { title: "Ancestral Imbalance", source: "African", points: 890, explanation: "Usawa na mizazi umevurugika. Fanya matambiko.", bodyPart: [0.5, 0.5] },
+                { title: "Evil Eye (Choyo)", source: "African", points: 820, explanation: "Jicho baya. Unahitaji hirizi.", bodyPart: [0.5, 0.2] }
             ]
         };
 
-        // ============================================
-        // VARIABLES
-        // ============================================
+        // Variables
         let scanInterval;
         let scanTime = 60;
         let resultsByCategory = { modern: [], traditional: [], spiritual: [] };
+        let modernIndex = 0, traditionalIndex = 0, spiritualIndex = 0;
 
-        // ============================================
-        // SEEDED RANDOM (kutumia jina la mgonjwa)
-        // ============================================
+        // Seeded random
         function seededRandom(seed) {
             let h = 0;
             for (let i = 0; i < seed.length; i++) {
@@ -418,10 +433,8 @@
             };
         }
 
-        // ============================================
-        // CHAGUA MATOKEO KWA NASA (bila kurudia)
-        // ============================================
-        function selectRandomResults(category, patientName, count = 6) {
+        // Select random results
+        function selectRandomResults(category, patientName, count = 4) {
             const list = allResults[category];
             const rand = seededRandom(patientName + category);
             const shuffled = [...list];
@@ -429,140 +442,130 @@
                 const j = Math.floor(rand() * (i + 1));
                 [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
-            return shuffled.slice(0, count).map((item, index) => ({
-                ...item,
-                badge: item.badge.replace(/\d+/, (index + 1).toString())
-            }));
+            return shuffled.slice(0, count);
         }
 
-        // ============================================
-        // ANZA SCAN
-        // ============================================
+        // Start scan
         function startScan() {
             const patientName = document.getElementById('patientName').value || 'Default';
+            
+            // Clear previous
+            if (scanInterval) clearInterval(scanInterval);
+            
+            // Select new results
             resultsByCategory = {
-                modern: selectRandomResults('modern', patientName, 6),
-                traditional: selectRandomResults('traditional', patientName, 6),
-                spiritual: selectRandomResults('spiritual', patientName, 6)
+                modern: selectRandomResults('modern', patientName, 4),
+                traditional: selectRandomResults('traditional', patientName, 4),
+                spiritual: selectRandomResults('spiritual', patientName, 4)
             };
             
+            modernIndex = 0;
+            traditionalIndex = 0;
+            spiritualIndex = 0;
             scanTime = 60;
-            document.getElementById('scannerOverlay').style.display = 'flex';
-            document.getElementById('scanProgress').style.width = '0%';
-            document.getElementById('timeRemaining').textContent = '01:00';
             
+            // Clear display
             document.getElementById('modernResults').innerHTML = '';
             document.getElementById('traditionalResults').innerHTML = '';
             document.getElementById('spiritualResults').innerHTML = '';
             document.getElementById('dotOverlay').innerHTML = '';
             
-            updateTotalScore();
+            // Show overlay
+            document.getElementById('scannerOverlay').style.display = 'flex';
+            document.getElementById('scanProgress').style.width = '0%';
+            document.getElementById('timeRemaining').textContent = '01:00';
             
-            if (scanInterval) clearInterval(scanInterval);
+            // Start timer
             scanInterval = setInterval(updateScan, 1000);
         }
 
         function updateScan() {
             scanTime--;
-            const minutes = Math.floor(scanTime / 60);
-            const seconds = scanTime % 60;
-            document.getElementById('timeRemaining').textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+            const mins = Math.floor(scanTime / 60);
+            const secs = scanTime % 60;
+            document.getElementById('timeRemaining').textContent = 
+                `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
             document.getElementById('scanProgress').style.width = ((60 - scanTime)/60*100) + '%';
             
-            const elapsed = 60 - scanTime;
-            if (elapsed % 6 === 0 && elapsed > 0) {
-                const modernIdx = Math.floor(elapsed / 6) - 1;
-                if (modernIdx < resultsByCategory.modern.length) {
-                    displayResult('modern', resultsByCategory.modern[modernIdx]);
-                }
-                const traditionalIdx = Math.floor(elapsed / 6) - 1;
-                if (traditionalIdx < resultsByCategory.traditional.length) {
-                    displayResult('traditional', resultsByCategory.traditional[traditionalIdx]);
-                }
-                const spiritualIdx = Math.floor(elapsed / 6) - 1;
-                if (spiritualIdx < resultsByCategory.spiritual.length) {
-                    displayResult('spiritual', resultsByCategory.spiritual[spiritualIdx]);
-                }
+            // Show results every 15 seconds
+            if (scanTime === 45 && modernIndex < resultsByCategory.modern.length) {
+                addResult('modern', resultsByCategory.modern[modernIndex++]);
             }
-            
-            if (scanTime <= 0) {
+            if (scanTime === 30 && traditionalIndex < resultsByCategory.traditional.length) {
+                addResult('traditional', resultsByCategory.traditional[traditionalIndex++]);
+            }
+            if (scanTime === 15 && spiritualIndex < resultsByCategory.spiritual.length) {
+                addResult('spiritual', resultsByCategory.spiritual[spiritualIndex++]);
+            }
+            if (scanTime === 0) {
+                // Add remaining results
+                while (modernIndex < resultsByCategory.modern.length) {
+                    addResult('modern', resultsByCategory.modern[modernIndex++]);
+                }
+                while (traditionalIndex < resultsByCategory.traditional.length) {
+                    addResult('traditional', resultsByCategory.traditional[traditionalIndex++]);
+                }
+                while (spiritualIndex < resultsByCategory.spiritual.length) {
+                    addResult('spiritual', resultsByCategory.spiritual[spiritualIndex++]);
+                }
+                
                 clearInterval(scanInterval);
                 document.getElementById('scannerOverlay').style.display = 'none';
             }
         }
 
-        function displayResult(category, result) {
+        function addResult(category, result) {
             const container = document.getElementById(category + 'Results');
             const card = document.createElement('div');
             card.className = `result-card ${category}`;
             card.innerHTML = `
-                <div class="result-header">
-                    <div class="result-title">${result.title}</div>
-                    <div class="result-badge badge-${category}">${result.badge}</div>
-                </div>
-                <div class="result-source">📊 Chanzo: ${result.source} • ${result.points} pointi</div>
+                <div class="result-title">${result.title}</div>
+                <div class="result-source">📊 ${result.source} • ${result.points} pts</div>
                 <div class="result-explanation">${result.explanation}</div>
-                <div class="result-footer">
-                    <span class="result-points">⭐ Uhakika: ${Math.round(result.points/9)}%</span>
-                    <span class="result-action" onclick='showDetails(${JSON.stringify(result).replace(/'/g, "\\'")})'>🔍 Maelezo zaidi</span>
+                <div class="result-footer" style="text-align:right;">
+                    <span style="color:#3b82f6; cursor:pointer;" onclick='showDetails(${JSON.stringify(result).replace(/'/g, "\\'")})'>🔍 Maelezo</span>
                 </div>
             `;
             container.appendChild(card);
             
-            const dotColor = category === 'modern' ? '#3b82f6' : category === 'traditional' ? '#f59e0b' : '#8b5cf6';
+            // Add dot
             const dot = document.createElement('div');
             dot.className = 'dot';
             dot.style.left = (result.bodyPart[0]*100)+'%';
             dot.style.top = (result.bodyPart[1]*100)+'%';
-            dot.style.background = dotColor;
-            dot.style.boxShadow = `0 0 20px ${dotColor}`;
+            dot.style.background = category === 'modern' ? '#3b82f6' : category === 'traditional' ? '#f59e0b' : '#8b5cf6';
             document.getElementById('dotOverlay').appendChild(dot);
-        }
-
-        function updateTotalScore() {
-            let total = 0;
-            for (let cat of ['modern','traditional','spiritual']) {
-                resultsByCategory[cat].forEach(r => total += r.points);
-            }
-            document.getElementById('totalScoreDisplay').innerHTML = total + '/10,000+';
         }
 
         function showDetails(result) {
             document.getElementById('modalTitle').innerHTML = result.title;
             document.getElementById('modalData').innerHTML = `
-                <div class="data-item"><strong>Chanzo:</strong> ${result.source}</div>
-                <div class="data-item"><strong>Pointi:</strong> ${result.points}/900</div>
-                <div class="data-item"><strong>Uhakika:</strong> ${Math.round(result.points/9)}%</div>
-                <div class="data-item"><strong>Maelezo:</strong> ${result.explanation}</div>
-                <div class="data-item"><strong>Tiba:</strong> Fuatiliwa na daktari</div>
+                <p><strong>Chanzo:</strong> ${result.source}</p>
+                <p><strong>Pointi:</strong> ${result.points}</p>
+                <p><strong>Maelezo:</strong> ${result.explanation}</p>
+                <p><strong>Tiba:</strong> Fuatiliwa na daktari</p>
             `;
             document.getElementById('infoModal').style.display = 'flex';
         }
 
-        function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
+        function closeModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
         function switchCategory(cat) {
             document.querySelectorAll('.category-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('category-'+cat).classList.add('active');
             event.target.classList.add('active');
         }
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-'+tab).classList.add('active');
-            event.target.classList.add('active');
-        }
-        function printReport() { window.print(); }
 
+        function printReport() {
+            window.print();
+        }
+
+        // Load default
         window.addEventListener('load', () => {
             document.getElementById('scannerOverlay').style.display = 'none';
-            const defaultName = document.getElementById('patientName').value;
-            resultsByCategory = {
-                modern: selectRandomResults('modern', defaultName, 6),
-                traditional: selectRandomResults('traditional', defaultName, 6),
-                spiritual: selectRandomResults('spiritual', defaultName, 6)
-            };
-            updateTotalScore();
         });
     </script>
 </body>
